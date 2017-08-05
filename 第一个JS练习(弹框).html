@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            color: #555;
+        }
+        a{
+            text-decoration: none;
+            display: inline-block;
+            padding: 10px;
+            margin-right: 10px;
+        }
+        #contain{
+            width: 1000px;
+            height: 500px;
+            padding: 20px;
+            border: 5px solid #000;
+            margin: 20px auto;
+            position: relative;
+            /*background: rgba(0, 0, 0, 0.2);*/
+        }
+        #btn{
+            background: pink;
+            padding: 5px;
+            color: #fff;
+        }
+        #tabBox{
+            width: 100px;
+            height: 100px;
+            border: 5px solid #000;
+            margin-top: 20px;
+            background: #fff;
+        }
+        #box{
+            width: 400px;
+            height: 300px;
+            border: 10px solid pink;
+            position: absolute;
+            right: 30px;
+            bottom: 30px;
+            padding: 10px;
+            display: none;
+            background: #fff;
+        }
+        .bgColor,.boxWidth,.boxHeight{
+            padding: 10px;
+        }
+        .bgColor a,.boxWidth a,.boxHeight a{
+            color: #fff;
+        }
+
+        .bgRed{
+            background-color: red;
+        }
+        .bgBlue{
+            background-color: blue;
+        }
+        .bgPink{
+            background-color: pink;
+        }
+        .boxBtn{
+            width: 300px;
+            margin: 20px auto;
+        }
+        .boxBtn a{
+            font-size: 20px;
+            background: #000;
+            color: #fff;
+            margin-right: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="contain">
+        <span>请为下面的DIV设置样式 : </span>
+        <input type="button" id="btn" value="点击设置">
+        <div id="tabBox"></div>
+        <div id="box">
+            <div class="bgColor">
+                <span>设置背景颜色 :</span>
+                <a href="#" class="bgRed" id="cRed">红色</a>
+                <a href="#" class="bgBlue" id="cBlue">蓝色</a>
+                <a href="#" class="bgPink" id="cPink">粉色</a>
+            </div>
+            <div class="boxWidth">
+                <span>设置盒子宽度 :</span>
+                <a href="#" class="bgRed" id="cWidth1">200px</a>
+                <a href="#" class="bgBlue" id="cWidth2">300px</a>
+                <a href="#" class="bgPink" id="cWidth3">400px</a>
+            </div>
+            <div class="boxHeight">
+                <span>设置盒子高度 :</span>
+                <a href="#" class="bgRed" id="cHeight1">200px</a>
+                <a href="#" class="bgBlue" id="cHeight2">300px</a>
+                <a href="#" class="bgPink" id="cHeight3">400px</a>
+            </div>
+            <div class="boxBtn">
+                <a href="#" id="reset">重置</a>
+                <a href="#" id="sure">确认</a>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // 获取所需要的元素
+    var contain = document.getElementById('contain');
+    var oBtn = document.getElementById('btn');
+    var oBox = document.getElementById('box');
+    var tabBox = document.getElementById('tabBox');
+
+    var cRed =document.getElementById('cRed');
+    var cBlue =document.getElementById('cBlue');
+    var cPink =document.getElementById('cPink');
+
+    var cWidth1 =document.getElementById('cWidth1');
+    var cWidth2 =document.getElementById('cWidth2');
+    var cWidth3 =document.getElementById('cWidth3');
+
+    var cHeight1 =document.getElementById('cHeight1');
+    var cHeight2 =document.getElementById('cHeight2');
+    var cHeight3 =document.getElementById('cHeight3');
+
+    var reset = document.getElementById('reset');
+    var sure = document.getElementById('sure');
+
+    // 点击设置按钮，弹出 操作盘
+    oBtn.onclick = function (){
+        oBox.style.display = 'block';
+        contain.style.background = 'rgba(0, 0, 0, 0.2)';
+    }
+
+    // 点击颜色按钮，改变颜色
+    cRed.onclick = function (){
+        tabBox.style.background = 'red';
+    }
+    cBlue.onclick = function (){
+        tabBox.style.background = 'blue';
+    }
+    cPink.onclick = function (){
+        tabBox.style.background = 'pink';
+    }
+
+    // 点击宽度按钮，改变宽度
+    cWidth1.onclick = function (){
+        tabBox.style.width = '200px';
+    }
+    cWidth2.onclick = function (){
+        tabBox.style.width = '300px';
+    }
+    cWidth3.onclick = function (){
+        tabBox.style.width = '400px';
+    }
+
+    // 点击高度按钮，改变高度
+    cHeight1.onclick = function (){
+        tabBox.style.height = '200px';
+    }
+    cHeight2.onclick = function (){
+        tabBox.style.height = '300px';
+    }
+    cHeight3.onclick = function (){
+        tabBox.style.height = '400px';
+    }
+
+    // 重置按钮： 将tabBox的宽高和背景设置成初识值
+
+    reset.onclick =function (){
+        tabBox.style.width = ''; // 设置的是行间样式，
+        tabBox.style.height = '';
+        tabBox.style.background = '';
+
+    }
+
+    // 确认按钮
+    sure.onclick = function (){
+        oBox.style.display = 'none';
+        contain.style.background = '';
+    }
+
+</script>
+</body>
+</html>
