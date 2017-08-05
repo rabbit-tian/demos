@@ -1,1 +1,1 @@
-# demos
+Daily learning
