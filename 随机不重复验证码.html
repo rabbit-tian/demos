@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    *{
+        padding: 0;
+        margin: 0;
+        font-size: 14px;
+        color: #555;
+        -webkit-user-select: none;
+    }
+    .code{
+        width: 100px;
+        margin: 20px auto;
+        line-height: 35px;
+        text-align: center;
+        letter-spacing: 5px;
+        border: 1px dashed lightblue;
+        cursor: pointer;
+    }
+    </style>
+</head>
+<body>
+<div class="code" id = "codeBox">abcd</div>
+
+<script>
+// 在 26个字母和大写字母，10个数字中，随机选取四个，组成验证码即可
+
+var codeBox = document.getElementById('codeBox');
+
+// 先准备62个字符（0-61）
+
+var codeArea = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0987654321';
+
+// 在范围字符串中，随机获取四个字符组成验证码  codeArea.charAt(2):获取其中一个字符
+function createRandom(){
+    var result = '';
+    while (result.length<4){ // 只要结果小于4，就一直执行循环，具体循环次数不知道
+
+        // Math.round(Math.random()*(m-n)+n);  获取[n-m] 之间的随机整数
+        var van = Math.round(Math.random()*61);//->在0~61之间随机获取一个整数作为获取某一个字符的索引
+        var cur = codeArea.charAt(van); // 每一次循环的字符
+
+        // 为保证不重复，我们需要验证，现有获取的字符是否已经包含了我们的cur，如果没有包含我们再拼接，已经包含则继续下一轮循环即可
+
+        if(result.indexOf(cur) === -1){
+            result += cur;
+        }
+    }
+
+    codeBox.innerHTML = result;
+}
+
+createRandom();
+
+codeBox.onclick = createRandom; // 点击的时候执行此方法,随机生成验证码
+
+
+// while 循环
+//     white(条件){
+//         // 只要条件成立就一直执行循环体中的内容
+//     }
+// for(var i=0;i<4;i++){
+//     console.log(i);
+// }
+//
+// var i=0;
+// while(i<4){
+//     console.log(i);
+//     i++;
+// }
+
+
+</script>
+</body>
+</html>

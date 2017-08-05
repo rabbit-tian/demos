@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        body {
+            font-size: 30px;
+        }
+
+        #contain {
+            width: 800px;
+            height: 800px;
+            background: #ccc;
+            margin: 50px auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #000;
+            padding: 30px;
+        }
+
+        li {
+            height: 80px;
+            line-height: 80px;
+            margin-top: 20px;
+        }
+
+        li > span {
+            display: inline-block;
+            width: 60px;
+            text-align: center;
+            background: #666;
+            border-radius: 8px;
+            color: #fff;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+
+        li b {
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        li b > span {
+            margin-right: 20px;
+        }
+
+        .footer {
+            margin-top: 40px;
+        }
+
+        .footer div {
+            height: 80px;
+            line-height: 80px;
+        }
+
+        .footer div span {
+            display: inline-block;
+            padding: 0 20px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background: #fff;
+            vertical-align: middle;
+            border-radius: 5px;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="contain">
+    <ul class="list">
+        <li>
+            <span class="less">-</span>
+            <span class="starter">0</span>
+            <span class="more">+</span>
+            <b>单价：<span class="price">12.5</span>元&nbsp;&nbsp;小计：<span class="small-note">0</span> 元</b>
+        </li>
+        <li>
+            <span class="less">-</span>
+            <span class="starter">0</span>
+            <span class="more">+</span>
+            <b>单价：<span class="price">10.5</span>元&nbsp;&nbsp;小计：<span class="small-note">0</span> 元</b>
+        </li>
+        <li>
+            <span class="less">-</span>
+            <span class="starter">0</span>
+            <span class="more">+</span>
+            <b>单价：<span class="price">8.5</span>元&nbsp;&nbsp;小计：<span class="small-note">0</span> 元</b>
+        </li>
+        <li>
+            <span class="less">-</span>
+            <span class="starter">0</span>
+            <span class="more">+</span>
+            <b>单价：<span class="price">8.0 </span>元&nbsp;&nbsp;小计：<span class="small-note">0</span> 元</b>
+        </li>
+        <li>
+            <span class="less">-</span>
+            <span class="starter">0</span>
+            <span class="more">+</span>
+            <b>单价：<span class="price">14.5</span>元&nbsp;&nbsp;小计：<span class="small-note">0</span> 元</b>
+        </li>
+    </ul>
+    <div class="footer">
+        <div>商品总件数：<span class="totalNum"></span> 件</div>
+        <div>共花费了：<span class="totalCost"></span> 元</div>
+        <div>最贵的商品单价：<span class="most"></span> 元</div>
+    </div>
+</div>
+
+
+<script>
+    // 获取元素
+    var lessBtn = document.querySelectorAll('.less');  //   减号按钮
+    var moreBtn = document.querySelectorAll('.more');  //   加号按钮
+    var startBtn = document.querySelectorAll('.starter'); // 初始值 0
+    var smallNote = document.querySelectorAll('.small-note'); // 小计
+    var totalNum = document.querySelector('.totalNum'); // 商品总件数
+    var totalCost = document.querySelector('.totalCost'); // 总花费
+    var most = document.querySelector('.most'); // 最贵的单价
+
+    var price = document.querySelectorAll('.price'); // 商品单价
+
+    var allArr = []; // 定义一个新数组，存放已买商品的单价
+
+    // 遍历所有按钮
+    for (var i = 0; i < lessBtn.length; i++) {
+        // 自定义属性，记录i的值
+        lessBtn[i].index = moreBtn[i].index = i;
+        startBtn[i].num = 0;
+
+        // 点击减少按钮，如果num>0时，每点击一次，num的数量减 1
+        lessBtn[i].onclick = function () {
+            console.log(allArr);
+            if (startBtn[this.index].num > 0) {
+                startBtn[this.index].num--;
+                startBtn[this.index].innerHTML = startBtn[this.index].num; // 将num值放到计数框内
+                smallNote[this.index].innerHTML = price[this.index].innerHTML * startBtn[this.index].num; // 小计每样商品的费用
+                totalFn(); // 调用 记录总件数 和 总费用的函数
+
+                // 以下计算已买商品最大值
+                // 先判断存放单价的数组allArr内的商品是否购买，如果等于0，说明没有购买，此时应该将其删除
+                if (startBtn[this.index].num === 0) {
+                    // 遍历存放单价的数组allArr
+                    for (var j = 0; j < allArr.length; j++) {
+
+                        // 如果商品没有购买，但是其单价存在于数组allArr内的将其删除
+                        if (price[this.index].innerHTML == allArr[j]) {
+
+                            allArr.splice(j, 1); // 从索引n开始删除m个元素。splice(n,m)
+                            sort(); // 将购买的商品单价进行从大到小排序
+
+                            // 删除完数组的内容，应该判断此时的数组是否还有内容，如果数组内为空，说明没有选中任何商品，此时的最贵商品单价应该为0
+                            if (allArr.length === 0) {
+                                most.innerHTML = 0;
+                            }
+
+
+                            // var allArr = ["14.5", "12.5", "10.5", "8.5", "8.0 "]
+                            // 14.5
+                            // if(14.5 === allArr[j]){}  如果商品没有购买，但是其单价存在于数组allArr内的将其删除
+                        }
+                    }
+                }
+            }
+        };
+
+        // 点击增加按钮,每点击一次，num加1
+        moreBtn[i].onclick = function () {
+            console.log(i);
+            startBtn[this.index].num++;
+            startBtn[this.index].innerHTML = startBtn[this.index].num; // 将num值放到计数框内
+            smallNote[this.index].innerHTML = price[this.index].innerHTML * startBtn[this.index].num; // 小计
+            totalFn(); // 调用 记录总件数 和 总费用的函数
+
+            // 以下计算最贵商品单价
+            allArr.push(price[this.index].innerHTML); // 将买的商品的单价放在allArr 数组内
+            distinctFn(allArr);  // 将allArr数组进行去重
+            sort(); // 将去重后的数组allArr进行从大到小排序，方便提取单价最大值
+            console.log(allArr);
+        };
+
+
+    }
+
+
+    // 记录总件数 和 总费用
+    function totalFn() {
+        var total = 0; // 定义一个变量，初始值为0 ,记录总件数
+        var cost = 0; // 定义一个变量，初始值为0 ,记录总费用
+
+        // 遍历取得 startBtn 的内容，相加后将最终值给 总件数totalNum
+        for (var i = 0; i < startBtn.length; i++) {
+            total += parseFloat(startBtn[i].innerHTML); //
+            cost += parseFloat(price[i].innerHTML) * parseFloat(startBtn[i].innerHTML); // 单价乘以数量
+        }
+        totalNum.innerHTML = total;  // 总件数
+        totalCost.innerHTML = cost;  // 总花费
+    }
+
+
+    // 数组排序函数封装
+    function sort() {
+
+        allArr.sort(function (a, b) {
+            return b - a;
+        }); // sort函数对数组进行排序，b-a从大到小排序，a-b从小到大排序
+        most.innerHTML = allArr[0];  // 将从大到小排序后的数组的第一个值赋给 most
+    }
+
+    // 数组去重函数封装
+    function distinctFn(ary) {
+        var obj = {};
+        for (var i = 0; i < ary.length; i++) {
+            var cur = ary[i];
+            if (typeof obj[cur] !== 'undefined') { // 如果cur已经存在，我们删掉这一项，并且用最后一项填补删除的这个位置
+                ary[i] = ary[ary.length - 1];
+                ary.length--;
+                i--;
+                continue;
+            }
+            obj[cur] = cur;// 把数组中获取的这一项的值分别作为对象的属性名和属性值存储起来，作为cur是否重复的参照物
+        }
+
+        return ary;
+    }
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #contain{
+            width: 1000px;
+            height: 1000px;
+            position: relative;
+        }
+        #contain div{
+            width: 100px;
+            height: 100px;
+            border: 1px solid #000;
+            cursor: pointer;
+            position: absolute;
+            /*background: url(1.png);*/
+            transition: 1s linear;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="contain"></div>
+
+    <script>
+        // 获取元素
+        var containBox = document.querySelector('#contain');
+
+
+        for (var i = 0; i < 10; i++) {
+            for (var j = 0; j < 10; j++) {
+
+                containBox.innerHTML += '<div style="left: '+ j*105 +'px;top:'+ i*105 +'px;background-position: '+(-100*j)+'px '+(-100*i)+'px;"></div>';
+            }
+        }
+        // 等元素生成完之后再操作这100个div
+
+        // 获取100个div元素
+        var oDivs = document.querySelectorAll('#contain div');
+
+        for (var i = 0; i < oDivs.length; i++) {
+
+            oDivs[i].onmouseover = function (){
+                this.style.backgroundImage = 'url(16.jpg)';
+            }
+            
+        }
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>

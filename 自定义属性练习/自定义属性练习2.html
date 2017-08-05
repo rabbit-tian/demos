@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body,ul,li,h3{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            font-size:18px;
+            background-color: orange;
+        }
+        ul{
+            list-style: none;
+        }
+        a{
+            text-decoration: none;
+        }
+        img{
+            border: 0;
+        }
+
+
+        #contain{
+            width: 318px;
+            height: 300px;
+            margin: 30px auto;
+            border: 20px solid #fff;
+            position: relative;
+            background: #fff;
+        }
+        .imgAll{
+            height: 212px;
+            overflow: hidden;
+
+        }
+        .imgAll img{
+            width: 318px;
+            height: 212px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
+        .prev,.next{
+            position: absolute;
+            top: 90px;
+            font-size:30px;
+            color: #555;
+            cursor: pointer;
+        }
+        .prev{
+            left: 10px;
+        }
+        .next{
+            right:10px;
+        }
+        .points{
+            margin-top: 50px;
+            text-align: center;
+        }
+        .points div{
+            width: 20px;
+            height: 20px;
+            background: #ccc;
+            display: inline-block;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .points img{
+            position: absolute;
+            top: -45px;
+            left: -10px;
+            width: 40px;
+            height: 40px;
+            display: none;
+
+        }
+
+    </style>
+</head>
+<body>
+    <div id="contain">
+        <div class="imgAll">
+            <img src="img/every1.png" alt="">
+            <img src="img/every2.png" alt="">
+            <img src="img/every3.png" alt="">
+            <img src="img/every4.png" alt="">
+        </div>
+
+        <!--按钮-->
+        <div class="prev">&lt;</div>
+        <div class="next">&gt;</div>
+
+        <!--点-->
+        <div class="points">
+            <div><img src="img/every1.png" alt=""></div>
+            <div><img src="img/every2.png" alt=""></div>
+            <div><img src="img/every3.png" alt=""></div>
+            <div><img src="img/every4.png" alt=""></div>
+        </div>
+
+    </div>
+
+
+    <script>
+        // 获取点击事件的元素
+
+        var btns = document.querySelectorAll('.prev,.next');     // 按钮集合
+        var imgTotal = document.querySelectorAll('.imgAll img'); // 图片集合
+        var pointAll = document.querySelectorAll('.points div'); // 点集合
+
+        // 设置初始状态
+
+        var index = 0;
+
+        imgTotal[index].style.opacity = 1;
+        pointAll[index].style.backgroundColor = 'pink';
+
+
+        // 给左边的按钮添加点击事件
+
+        btns[0].onclick = function (){
+            index--; // 往前切换
+            if(index<0){
+                index = imgTotal.length-1; // 边界处理
+            }
+            changeFn();
+        };
+
+        // 给右边的按钮添加点击事件
+
+        btns[1].onclick = function (){
+            index++; // 往后切换
+            if(index>imgTotal.length-1){
+                index = 0; // 边界处理
+            }
+
+            changeFn();
+        };
+
+        // 遍历小圆点添加事件
+
+        for (var i = 0; i < pointAll.length; i++) {
+
+            pointAll[i].index = i; // 设置点的索引值
+
+            // 点击事件
+
+            //  小点和图片相关联的就是索引值，如果让索引值相同，就能实现同步切换
+
+            pointAll[i].onclick = function (){
+                index=this.index;  // 让前面图片的index值和这边新定义的index值相等
+                changeFn();
+            };
+
+            // 添加鼠标移入事件
+
+            pointAll[i].onmouseover = function (){
+                this.querySelector('img').style.display = 'block';
+            };
+
+            // 添加鼠标移出事件
+
+            pointAll[i].onmouseout = function (){
+                this.querySelector('img').style.display = '';
+            }
+
+        }
+
+
+        // 封装函数，减少冗余代码
+
+        function changeFn(){
+            for (var i = 0; i < imgTotal.length; i++) {
+                imgTotal[i].style.opacity = 0; // 清除之前的图片样式
+                pointAll[i].style.backgroundColor = '';
+            }
+            imgTotal[index].style.opacity = 1; // 设置当前的图片透明度为1
+            pointAll[index].style.backgroundColor = 'pink'; // 设置当前对应的圆点是粉色
+        }
+
+
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body,html,ul,li,h1,h2,h3,h4,h5,h6,dl,dd,dt,ol{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            font-size:14px;
+        }
+        ul{
+            list-style: none;
+        }
+        a{
+            text-decoration: none;
+            color: #000;
+            display: block;
+        }
+        img{
+            border: 0;
+            display: block;
+        }
+
+        body{
+            background: yellowgreen;
+        }
+        #contain{
+            width: 300px;
+            height: 520px;
+            background: #000;
+            margin: 50px auto;
+            border-radius: 30px;
+            padding: 40px 20px 80px;
+            position: relative;
+        }
+        .listen{
+            position: absolute;
+            left: 50%;
+            top: 20px;
+            margin-left: -40px;
+            width: 80px;
+            height: 6px;
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        .home{
+            position: absolute;
+            left: 50%;
+            bottom: 20px;
+            margin-left: -25px;
+            width: 20px;
+            height: 20px;
+            background: #000;
+            border: 1px solid #555;
+            border-radius: 50%;
+            padding: 15px;
+        }
+        .squre{
+            border: 1px solid #555;
+            border-radius: 5px;
+            height: 100%;
+        }
+        .iphone{
+            background: #fff;
+            height: 100%;
+        }
+        .iphone dl{
+            padding: 10px;
+        }
+        .iphone dt,.iphone dd a{
+            height: 40px;
+            line-height:40px;
+            background: #555;
+            color: #fff;
+            padding-left: 10px;
+            cursor: pointer;
+        }
+        /*.iphone dd a:hover{*/
+            /*background: #8e8e8e;*/
+        /*}*/
+
+
+
+
+    </style>
+</head>
+<body>
+<div id="contain">
+    <!--听筒-->
+    <div class="listen"></div>
+
+    <!--屏幕-->
+    <div class="iphone">
+        <dl>
+            <dt>我的好友</dt>
+            <dd>
+                <a href="javascript:;">小明</a>
+                <a href="javascript:;">小方</a>
+                <a href="javascript:;">小红</a>
+            </dd>
+
+        </dl>
+        <dl>
+            <dt>企业好友</dt>
+            <dd>
+                <a href="javascript:;">习大大</a>
+                <a href="javascript:;">奥巴马</a>
+                <a href="javascript:;">普京</a>
+            </dd>
+        </dl>
+
+        <dl>
+            <dt>黑名单</dt>
+            <dd>
+                <a href="javascript:;">特普朗</a>
+                <a href="javascript:;">金正恩</a>
+            </dd>
+        </dl>
+
+    </div>
+
+    <!--home键-->
+    <div class="home">
+        <div class="squre"></div>
+    </div>
+
+</div>
+
+
+<script>
+    // 获取元素
+    var fatherDt = document.querySelectorAll('dt'); // 获取三个父级菜单
+    var sonDd = document.querySelectorAll('dd'); // 获取三个子级菜单
+    var aTotal = document.querySelectorAll('a'); // 获取所有的a标签
+
+    // 循环三个父级菜单，给其添加点击事件
+
+    for (var i = 0; i < fatherDt.length; i++) {
+
+        fatherDt[i].index = i; // 自定义属性index，存储每个i值
+
+        sonDd[i].style.display = 'none'; // 初始化子菜单状态为隐藏
+
+        fatherDt[i].onclick = function (){  // 点击父级菜单,若果是显示，使其隐藏；如果是隐藏，使其显示
+
+            if(sonDd[this.index].style.display == 'block'){
+
+                sonDd[this.index].style.display = 'none';
+                this.style.background = '';   // 当子菜单隐藏时，将当前的父级菜单的背景色去掉
+
+            }else{
+
+                sonDd[this.index].style.display = 'block';
+                this.style.background = 'pink'; // 当子菜单显示时，将当前的父级菜单的背景色加上
+            }
+
+            for (var i = 0; i < fatherDt.length; i++) {
+
+                if(i!= this.index){ // 如果循环中i值不是当前的这个this.index代表的i值，就设置其隐藏
+                    sonDd[i].style.display = 'none';
+                    fatherDt[i].style.background = ''; // 将不是当前的父级菜单的背景色去掉
+                }
+            }
+        }
+    }
+
+    // 设置子菜单的鼠标移入移除事件
+    for (var j = 0; j < aTotal.length; j++) {
+
+
+        aTotal[j].onclick = function (){  // 点击子菜单，背景色变为绿色
+            this.style.background = 'green';
+            this.style.color = 'red';
+        }
+
+        aTotal[j].onmouseover = function (){
+            this.style.background = '#8e8e8e';
+            this.style.color = '#000';
+        }
+
+        aTotal[j].onmouseout = function (){
+            this.style.background = '';
+            this.style.color = '';
+        }
+
+    }
+
+
+
+
+</script>
+</body>
+</html>

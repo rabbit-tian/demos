@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+    *{
+        margin: 0;
+        padding: 0;
+        font-size:16px;
+        color: #eee;
+    }
+    #contain{
+        width: 500px;
+        padding: 20px;
+        background: #000;
+        margin: 30px auto;
+        position: relative;
+    }
+    #switch{
+        text-align: center;
+    }
+    #switch span{
+        display: inline-block;
+        padding: 6px 20px;
+        border: 1px solid #eee;
+        cursor: pointer;
+    }
+    #switch span.select{
+        background: #eee;
+        color: #000;
+    }
+    #switchTxt{
+        line-height: 40px;
+        font-size:14px;
+    }
+    #left,#right{
+        position: absolute;
+        top: 50%;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        cursor: pointer;
+    }
+    #left:hover,#right:hover{
+        background: rgba(0,0,0,.3);
+    }
+    #left{
+        left: 30px;
+    }
+    #right{
+        right: 30px;
+    }
+    #pages{
+        position: absolute;
+        left: 48%;
+        top: 100px;
+    }
+    #detail{
+        position: absolute;
+        left: 45%;
+        bottom: 40px;
+        height: 30px;
+        line-height: 30px;
+    }
+
+    </style>
+</head>
+<body>
+<div id="contain">
+    <div id="switch">
+        <span id="lopSwitch" class="select">循环切换</span>
+        <span id="orderSwitch">顺序切换</span>
+        <div id="switchTxt">图片可以从第一张跳转到最后一张</div>
+    </div>
+    <img src="img/1.jpg" alt="" id="imgBox">
+    <div id="left"><</div>
+    <div id="right">></div>
+
+    <div id="pages">1/4</div>
+    <div id="detail">文字描述一</div>
+
+
+</div>
+
+<script>
+    // 获取切换元素
+
+    var lopSwitch = document.getElementById('lopSwitch');
+    var orderSwitch = document.getElementById('orderSwitch');
+    var switchTxt = document.getElementById('switchTxt');
+
+
+    // 获取左右键元素，页眉元素，文字描述元素
+
+    var leftBtn = document.getElementById('left');
+    var rightBtn = document.getElementById('right');
+    var pages = document.getElementById('pages');
+    var detail = document.getElementById('detail');
+    var imgBox = document.getElementById('imgBox');
+
+    // 用数组储存图片和文字描述
+
+    var arrImg = ['img/1.jpg','img/2.jpg','img/3.jpg','img/4.jpg'];
+    var arrPage = ['文字描述一','文字描述二','文字描述三','文字描述四'];
+    var arrDetail = ['1/4','2/4','3/4','4/4'];
+
+    var index = 0;// 默认显示第一张图片
+
+    lopSwitchFn(); // 未点击任何切换情况下，默认是循环切换，调用执行
+
+    // 点击循环切换
+
+    lopSwitch.onclick = function (){
+        lopSwitchFn();
+    };
+
+    // 封装循环切换函数
+    function lopSwitchFn(){
+
+        // 初始化页面
+
+        imgBox.src = arrImg[0];
+        detail.innerHTML = arrPage[0];
+        pages.innerHTML = arrDetail[0];
+
+        orderSwitch.className = '';
+        lopSwitch.className = 'select';
+        switchTxt.innerHTML = '图片可以从第一张跳转到最后一张';
+
+
+        // 添加左边按钮事件
+        rightBtn.onclick = function (){
+
+            // 循环切换图片，并且进行边界处理
+            index++;
+            if(index>arrImg.length-1){
+                index = 0;
+            } // 边界处理
+            imgBox.src = arrImg[index];
+
+            // 文字描述
+            detail.innerHTML = arrPage[index];
+
+            // 改变页眉
+            pages.innerHTML = arrDetail[index];
+        };
+
+        // 添加左边按钮事件
+
+        leftBtn.onclick = function (){
+            // 循环切换图片，并且进行边界处理
+            index--;
+            if(index<0){
+                index = arrImg.length-1;
+            }
+
+            imgBox.src = arrImg[index];
+
+            // 文字描述
+            detail.innerHTML = arrPage[index];
+
+            // 改变页眉
+            pages.innerHTML = arrDetail[index];
+        }
+
+    }
+
+
+    // 点击顺序切换
+
+    orderSwitch.onclick = function (){
+        // 初始化页面
+        imgBox.src = arrImg[0];
+        detail.innerHTML = arrPage[0];
+        pages.innerHTML = arrDetail[0];
+
+        lopSwitch.className = '';
+        orderSwitch.className = 'select';
+        switchTxt.innerHTML = '图片只能跳转到第一张和最后一张';
+
+
+        // 添加右边按钮事件
+        rightBtn.onclick = function (){
+            index++;
+            if(index>arrImg.length-1){
+                index = arrImg.length-1;
+                alert('这是最后一张');
+            } // 边界处理
+            imgBox.src = arrImg[index];
+
+            // 文字描述
+            detail.innerHTML = arrPage[index];
+
+            // 改变页眉
+            pages.innerHTML = arrDetail[index];
+        }
+
+        // 添加左边按钮事件
+
+        leftBtn.onclick = function (){
+            // 循环切换图片，并且进行边界处理
+            index--;
+            if(index<=-1){
+                index = 0;
+                alert('这是第一张');
+            }
+
+            imgBox.src = arrImg[index];
+
+            // 文字描述
+            detail.innerHTML = arrPage[index];
+
+            // 改变页眉
+            pages.innerHTML = arrDetail[index];
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+</script>
+
+
+</body>
+</html>

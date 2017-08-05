@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        ul{
+            list-style: none;
+            padding: 15px;
+        }
+        #box{
+            width: 600px;
+            background: yellowgreen;
+            padding: 50px;
+            margin: 30px auto;
+        }
+        #phone{
+            width: 360px;
+            height: 600px;
+            border: 20px solid #eee;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        #phone ul li{
+            background: #eeeeee;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        #phone-bot{
+            position: absolute;
+            bottom: 0;
+            background: #e3e3e3;
+            width: 100%;
+        }
+        #phone-bot img{
+            vertical-align: middle;
+        }
+        #phone-bot input{
+            vertical-align: middle;
+        }
+        #pho-txt{
+            width: 200px;
+            height: 30px;
+        }
+        #pho-btn{
+            width: 50px;
+            height: 30px;
+            color: red;
+            cursor: pointer;
+        }
+        ul:after{
+            content: '';
+            clear: both;
+            display: block;
+        }
+        .li-btn{
+            clear:both;
+            word-break: break-all;
+        }
+        .imgChange{
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+        }
+        .innerspan{
+            display: inline-block;
+            max-width: 200px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="box">
+        <div id="phone">
+            <ul id="meg-content"></ul>
+            <div id="phone-bot">
+                <img src="images/1.png" alt="" id="img-btn">
+                <input type="text" id="pho-txt" placeholder="请输入内容">
+                <span id="pho-btn">发送</span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+<script>
+    // 获取元素
+    // 添加点击事件
+    // 做出判断
+
+    // 获取图片img元素，点击图片，改变聊天对象
+    var imgBtn = document.getElementById('img-btn');
+    var isImg = 1; //自定义判断条件
+
+
+    // 获取元素，添加点击事件，将输入框中的内容添加到页面中
+
+    var phoBtn = document.getElementById('pho-btn');
+    var phoTxt = document.getElementById('pho-txt');
+    var megContent =document.getElementById('meg-content');
+
+    phoBtn.onclick =function (){
+        if(phoTxt.value == ''){
+            alert('请输入内容');
+        }else{
+            if(isImg == 1){
+                megContent.innerHTML = '<li class="li-btn"><img class="imgChange" src="'+imgBtn.src+'"><span class="innerspan">'+ phoTxt.value + '</span></li>' + megContent.innerHTML;
+
+            }else{
+                megContent.innerHTML = '<li class="li-btn" style="float:right;"><span class="innerspan">'+ phoTxt.value + '</span><img src="images/2.png" class="imgChange">' + '</li>' + megContent.innerHTML;
+
+            }
+
+        }
+
+
+    }
+
+
+    imgBtn.onclick = function (){
+
+        if(isImg == 1){
+            imgBtn.src = 'images/2.png';
+            isImg = 2;
+
+
+        }else{
+            imgBtn.src = 'images/1.png';
+            isImg = 1;
+
+        }
+    }
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div{
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            position: absolute;
+            color:#fff;
+            text-align: center;
+            line-height: 50px;
+            font-size:20px;
+        }
+    </style>
+</head>
+<body>
+<script>
+    //v字排列
+
+
+    for(var i=0;i<21;i++){
+        document.body.innerHTML += '<div style="left:'+(i*50)+'px;top:'+(Math.abs(i%4-2)*50)+'px;">'+(Math.abs(i%4-2))+'</div>';
+    }
+
+
+
+    for(var i=0;i<5;i++){
+        document.body.innerHTML += '<div style="left:'+(i*50)+'px;top:'+(((2-Math.abs(i-2))*50)+160)+'px;">'+(2-Math.abs(i-2))+'</div>';
+    }
+
+    for(var i=0;i<5;i++){
+        document.body.innerHTML += '<div style="top:'+(i*50+320)+'px;left:'+(Math.abs(i-2)*50)+'px;">'+(Math.abs(i-2))+'</div>';
+    }
+
+    for(var i=0;i<5;i++){
+        document.body.innerHTML += '<div style="top:'+(i*50+320)+'px;left:'+(((2-Math.abs(i-2))*50)+160)+'px;">'+(2-Math.abs(i-2))+'</div>';
+    }
+
+
+
+    //   |3|  3  |-3| 3
+
+
+</script>
+</body>
+</html>

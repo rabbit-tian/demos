@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Document</title>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        font-size: 14px;
+        color: #555;
+    }
+    ul{
+        list-style: none;
+    }
+    .tabBox{
+        width: 500px;
+        margin: 20px auto;
+    }
+    .tabBox ul{
+        position: relative;
+        top: 1px; /*整体下移 1px ,解决边框重复问题*/
+    }
+    .tabBox ul:after{  /* 清除浮动BUG */
+        display: block;
+        content: '';
+        clear: both;
+    }
+    .tabBox ul li{
+        float: left;  /* 设置浮动后，子元素的高度不能把父元素的高度撑开 >= BUG */
+        padding: 0 10px;
+        margin-right: 10px;
+        line-height: 35px;
+        background: #eee;
+        border: 1px solid #999;
+        cursor: pointer;
+    }
+    .tabBox ul li.select{
+        background: #fff;
+        border-bottom-color: #fff;  /* 将底边框颜色设置成白色，压住div边框*/
+    }
+    .tabBox div{
+        height:150px;
+        padding: 20px;
+        border: 1px solid #999;
+        display: none;
+    }
+    .tabBox div.select{ /* 多条件选择器*/
+        display: block;
+    }
+
+
+</style>
+</head>
+<body>
+<div class="tabBox" id = "tabBox">
+    <ul>
+        <li class="select">新闻</li>
+        <li>电影</li>
+        <li>音乐</li>
+    </ul>
+    <div class="select">热门新闻</div>
+    <div>好莱坞电影</div>
+    <div>励志音乐</div>
+</div>
+
+
+<script>
+// 获取需要操作的元素
+var tabBox = document.getElementById('tabBox');
+var oList = tabBox.getElementsByTagName('li');
+var oDivList = tabBox.getElementsByTagName('div');
+
+// 每当点击li的时候都会重复做某件事情，有几个li，就重复做几次 --》》 循环(点击事件)
+for(var i = 0;i < oList.length; i++){
+    var cur = oList[i];  // 当前需要操作的li
+
+    oList[i].Index = i; // 每一次给li循环绑定之前，我们都在当前每个Li的身上贴个纸条  （Index自定义属性），在纸条上写当前li的编号（索引）
+
+    // 点击当前的li，进行一些具体操作
+    cur.onclick = function (){
+        // 1.先把s所有 li 和 div 的class清掉 ,循环
+        for(var j = 0;j < oList.length; j++){
+            oList[j].className = null;
+            oDivList[j].className = null;
+
+            // 2.再给当前点击的这个li和div加上select
+            oList[this.Index].className = 'select'; // this:当前点击的li
+            oDivList[this.Index].className = 'select';
+        }
+    }
+}
+
+
+</script>
+</body>
+</html>

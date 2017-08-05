@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #eee;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        #contain {
+            width: 1000px;
+            height: 500px;
+            border: 10px solid #ccc;
+            border-radius: 8px;
+            margin: 50px auto;
+            background-color: #fff;
+        }
+
+        .content {
+            width: 840px;
+            height: 200px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin: 20px 0 0 50px;
+            padding: 20px 30px 0;
+            font-size: 26px;
+            line-height: 40px;
+        }
+
+        .btn {
+            width: 80px;
+            height: 50px;
+            border: 1px solid #000;
+            border-radius: 10px;
+            text-align: center;
+            line-height: 50px;
+            margin: 30px 50px;
+            float: right;
+            background: #eee;
+            cursor: pointer;
+        }
+
+        ul {
+            margin-top: 80px;
+            margin-left: 50px;
+        }
+
+        li {
+            height: 40px;
+            line-height: 40px;
+            font-size: 24px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="contain">
+    <div class="content">
+        var arr = ['100px','abc'-6,[],-98765,34,-2,0,'300',
+        ,function(){alert(1);},null,document,[],true,'200px'-30,'23.45元',5,Number('abc'),function(){alert(3);},'xty'-90];
+    </div>
+    <button class="btn">开始查找</button>
+    <ul>
+        <li>
+            1.所有的数字是: <span></span>
+        </li>
+        <li>
+            2.可以转成的数字是: <span></span>
+        </li>
+        <li>
+            3.转成数字的最大值: <span></span>
+        </li>
+        <li>
+            4.结果是NaN的位置是: <span></span>
+        </li>
+    </ul>
+</div>
+
+
+<script>
+    // 整理数据
+    var arr = ['100px', 'abc' - 6, [], -98765, 34, -2, 0, '300', , function () {
+        alert(1);
+    }, null, document, [], true, '200px' - 30, '23.45元', 5, Number('abc'), function () {
+        alert(3);
+    }, 'xty' - 90];
+    var arr2 = []; // 定义一个空数组
+
+    // 获取元素
+    var oBtn = document.querySelector('.btn');
+    var spans = document.querySelectorAll('span');
+
+
+    oBtn.onclick = function () {
+        this.disabled = true;
+        //  遍历数组
+        for (var i = 0; i < arr.length; i++) {
+
+
+            // 1.所有的数字
+            if (typeof arr[i] == 'number' && !isNaN(arr[i])) {
+                spans[0].innerHTML += arr[i] + ',';
+            }
+
+            // 2.可以转成数字的
+            if (parseFloat(arr[i])) {
+                spans[1].innerHTML += arr[i] + ',';
+                arr2.push(parseFloat(arr[i]));
+            }
+            // 3.转成数字的最大值
+            arr2.sort(function (a, b) {
+                return b - a
+            });
+            spans[2].innerHTML = arr2[0];
+
+        }
+
+        for (var i = 0; i < arr.length; i++) {
+            // 4.结果是NaN的位置
+            if(String(arr[i]) == 'NaN'){
+                spans[3].innerHTML += i +',';
+            }
+
+        }
+    }
+
+</script>
+</body>
+</html>

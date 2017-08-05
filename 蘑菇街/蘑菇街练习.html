@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body,html,ul,li{
+            padding: 0;
+            margin: 0;
+        }
+        body{
+            font-size:14px;
+            font-family:'微软雅黑';
+        }
+        a{
+            text-decoration: none;
+        }
+        ul{
+            list-style: none;
+        }
+        img{
+            display: block;
+            border: 0;
+        }
+
+        #banner{
+            width: 600px;
+            height: 300px;
+            margin: 20px auto;
+            position: relative;
+            /*border: 1px solid #000;*/
+            overflow: hidden;
+
+        }
+        .banBox{
+            width: 3000px;
+            height: 300px;
+            transition: 1s;
+        }
+        .banBox img{
+            float: left;
+            width: 600px;
+            height: 300px;
+            opacity: 0;
+            transition: 2s;
+        }
+        .prev,.next{
+            position: absolute;
+            top: 50%;
+            margin-top: -30px;
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+            background: rgba(255,255,255,.2);
+            border-radius: 50%;
+            color: #666;
+            cursor: pointer;
+        }
+        .prev{
+            left: 10px;
+        }
+        .next{
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="banner">
+    <!--图片区-->
+
+    <div class="banBox">
+        <img src="img/1.png">
+        <img src="img/2.png">
+        <img src="img/3.png">
+        <img src="img/4.png">
+        <img src="img/5.png">
+    </div>
+
+    <!--按钮区-->
+
+    <div class="prev">上一张</div>
+    <div class="next">下一张</div>
+
+</div>
+
+<script>
+
+    // 获取元素
+
+    var prevBtn = document.querySelector('.prev');
+    var nextBtn = document.querySelector('.next');
+    var banBox = document.querySelector('.banBox');
+    var imgs = document.querySelectorAll('img'); // 此处获得图片集合
+
+    var index = 0;
+    imgs[0].style.opacity = 1;
+
+
+    // 给next按钮添加点击事件
+
+    nextBtn.onclick = function (){
+        index++;
+        if(index>4){
+            index = 0;
+        }
+        banBox.style.marginLeft = '-'+(600*index)+'px';
+        imgs[index].style.opacity = 1;
+        imgs[index-1].style.opacity = 0;
+    };
+
+    // 给prev按钮添加点击事件
+    prevBtn.onclick = function (){
+        index--;
+        if(index<0){
+            index = 4;
+        }
+        banBox.style.marginLeft = '-'+(600*index)+'px';
+        imgs[index].style.opacity = 1;
+        imgs[index-1].style.opacity = 0;
+    };
+
+</script>
+</body>
+</html>

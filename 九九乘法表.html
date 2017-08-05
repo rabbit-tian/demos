@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body,ul,li,ol,dl,dd,dt,h1,h2,h3,h4,h5,h6{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            font-size: 30px;
+            padding: 20px;
+        }
+        ul,li{
+            list-style: none;
+        }
+        a{
+            text-decoration: none;
+        }
+        img{
+            display: block;
+            border: 0;
+        }
+        #box span{
+            display: inline-block;
+            background: #75addf;
+            margin: 10px;
+            padding: 5px;
+            width: 110px;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 40px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="box"></div>
+
+<script>
+//    for(var i=1;i<10;i++){
+//
+//        for(var j=1;j<=i;j++){
+//
+//            document.body.innerHTML += j+'*'+i+'='+j*i+' ';
+//        }
+//        document.body.innerHTML += '</br>';  // 每次循环结束后执行这条语句
+//    }
+
+    // 当i=1时，j=1，条件成立，j=2时循环结束，换行
+    // 当i=2时，j=1，2 条件成立，j=3时循环结束，换行
+    // 当i=3时，j=1，2，3 条件成立，j=4时循环结束，换行
+
+    var oBox = document.getElementById('box');
+
+    for(var i=9;i>0;i--){
+        for(var j=1;j<=i;j++){
+            oBox.innerHTML +='<span>'+ j+'*'+i+'='+j*i+' '+'</span>';
+        }
+        oBox.innerHTML += '</br>';
+    }
+
+
+
+</script>
+</body>
+</html>
