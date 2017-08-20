@@ -80,7 +80,7 @@ function autoPlay(){
         // 更换图片
         oImgs[smallNum].style.display = 'block'; // 下一张图片显示
 
-    },500);
+    },1000);
 }
 
 
