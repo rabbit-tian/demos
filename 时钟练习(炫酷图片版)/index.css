@@ -1,0 +1,28 @@
+ul {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    height: 170px;
+    overflow: hidden;
+
+}
+
+li {
+    list-style: none;
+    width: 120px;
+    height: 170px;
+    position: relative;
+    float: left;
+}
+
+div {
+    height: 340px;
+    position: absolute;
+    top: 0px;
+}
+
+img {
+    width: 120px;
+    height: 170px;
+    vertical-align: top;
+}
