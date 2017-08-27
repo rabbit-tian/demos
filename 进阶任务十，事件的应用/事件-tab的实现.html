@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul,li{
+            list-style: none;
+        }
+        .clearfix:after{
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        .tab-ct{
+            margin: 20px auto;
+            width: 450px;
+            /*height: 300px;*/
+            box-shadow: 0 0 10px #000;
+        }
+        .header{
+            border-bottom:1px solid #000;
+        }
+        .header li{
+            float: left;
+            width: 150px;
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+            border-right: 1px solid #000;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+        .header>li.active{
+            background-color: #cccccc;
+        }
+        .content li{
+            height: 260px;
+            border: 1px solid #000;
+            font-size: 30px;
+            padding: 20px;
+            display: none;
+        }
+        .content>li.active{
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="tab-ct">
+        <ul class="header clearfix">
+            <li class="active">tab1</li>
+            <li>tab2</li>
+            <li>tab3</li>
+        </ul>
+
+        <ul class="content">
+            <li class="active">ct1</li>
+            <li>ct2</li>
+            <li>ct3</li>
+        </ul>
+    </div>
+
+
+    <script>
+        var tabs = document.querySelectorAll('.header>li');
+        var panels = document.querySelectorAll('.content>li');
+
+        // forEach(item遍历的对象,索引index,数组array) 的遍历
+
+        tabs.forEach(function (tab){ // 遍历tabs添加点击事件
+            tab.addEventListener('click',function(){
+
+                // 1.标题的样式变化
+                tabs.forEach(function (node){ // 遍历tabs删除active样式
+                    node.classList.remove('active');
+                });
+
+                this.classList.add('active'); // 当前项添加active选中样式
+
+                // 2.面板的样式变化
+
+                var index = [].indexOf.call(tabs,this); //找到数组tabs中 参数this在数组tabs中的索引值
+
+                panels.forEach(function (pan){ // 清除面板样式
+                    pan.classList.remove('active')
+                });
+
+                panels[index].classList.add('active') // 添加当前面板样式
+            })
+        })
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        a{
+            text-decoration: none;
+            color: #000;
+        }
+
+        #btn-modal{
+            border: 1px solid #ccc;
+            margin: 20px;
+            width: 80px;
+            height: 30px;
+            color: #000;
+            font-size: 18px;
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .modal-dialog{
+            position: fixed;
+            left:0;
+            top:0;
+            right:0;
+            bottom:0;
+            background: rgba(0,0,0,.5);
+            display: none;
+        }
+
+        .modal-ct{
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            /*往回移动自身宽高的一半*/
+            transform:translate(-50%,-50%);
+            width: 400px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            border-radius: 10px;
+            z-index: 10;
+        }
+        .header h3{
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+            border-bottom: 1px solid #ccc;
+            position: relative;
+        }
+        .header .close{
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 20px;
+        }
+        .content p{
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+        }
+        .footer{
+            border-top: 1px solid #ccc;
+        }
+        .footer a{
+            float: right;
+            height: 50px;
+            line-height: 50px;
+            margin-right: 30px;
+        }
+
+        .open{
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="btn-gorup">
+    <button id = 'btn-modal'>点我1</button>
+</div>
+
+<div class="modal-dialog">
+    <div class="modal-ct">
+        <div class="header">
+            <h3>我是标题1</h3>
+            <a class="close" href="javascript:;">x</a>
+        </div>
+
+        <div class="content">
+            <p>我是内容1</p>
+            <p>我是内容2</p>
+        </div>
+
+        <!--<div class="footer">-->
+            <!--<a class="btn btn-confirm" href="javascript:;">确定</a>-->
+            <!--<a class="btn btn-cancel" href="javascript:;">取消</a>-->
+        <!--</div>-->
+    </div>
+</div>
+
+
+
+
+<script>
+    var btn = document.querySelector('#btn-modal'), // 点击按钮
+        modal = document.querySelector('.modal-dialog'), // 显示框
+        modelCt = document.querySelector('.modal-ct'),
+        close = document.querySelector('.close'); // 取消按钮
+
+    // 给按钮添加点击事件
+
+    btn.addEventListener('click', function (){
+        modal.classList.add('open'); // 添加class的方法，只需页面渲染一次，比一个个添加style的性能好很多
+    });
+
+    // 给取消按钮添加点击事件
+
+    close.addEventListener('click',function (){
+        modal.classList.remove('open'); // 添加class的方法，只需页面渲染一次，比一个个添加style的性能好很多
+
+    });
+
+    // 点击页面以外的区域，让模态框消失
+
+    modal.addEventListener('click',function (){
+        modal.classList.remove('open'); // 添加class的方法，只需页面渲染一次，比一个个添加style的性能好很多
+    })
+
+    // 阻止冒泡
+
+    modelCt.addEventListener('click',function (e){
+        e.stopPropagation();
+    })
+
+
+</script>
+</body>
+</html>
