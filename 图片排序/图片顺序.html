@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            font-size: 16px;
+            color:#555;
+        }
+        #contain{
+            width: 800px;
+            background-color: #615097;
+            margin: 20px auto;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        header{
+            text-align: center;
+            color: #fff;
+            font-size: 24px;
+            margin: 30px 0;
+        }
+        header span{
+            display: inline-block;
+            background-color: #2d2748;
+            border-radius: 20px;
+            padding: 10px;
+            margin-right: 60px;
+            cursor: pointer;
+        }
+        header span:nth-child(2){
+            background-color: #bcbada;
+        }
+        ul,li{
+            list-style: none;
+            text-align: center;
+            color: #fff;
+        }
+        ul:after{
+            content: '';
+            display: block;
+            clear: both;
+        }
+        ul img{
+            display: block;
+            border: 0;
+            width: 180px;
+            height: 180px;
+        }
+        ul li{
+            float: left;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="contain">
+    <header>
+        <span class="order">从大到小</span>
+        <span class="random">打乱顺序</span>
+    </header>
+    <ul>
+        <!--<li><img src="img/0.jpg" alt=""><b>1/8</b></li>-->
+        <!--<li><img src="img/1.jpg" alt=""><b>2/8</b></li>-->
+        <!--<li><img src="img/2.jpg" alt=""><b>3/8</b></li>-->
+        <!--<li><img src="img/3.jpg" alt=""><b>4/8</b></li>-->
+        <!--<li><img src="img/4.jpg" alt=""><b>5/8</b></li>-->
+        <!--<li><img src="img/5.jpg" alt=""><b>6/8</b></li>-->
+        <!--<li><img src="img/6.jpg" alt=""><b>7/8</b></li>-->
+        <!--<li><img src="img/7.jpg" alt=""><b>8/8</b></li>-->
+    </ul>
+</div>
+
+
+<script>
+    // 获取元素
+    var oUl = document.querySelector('ul'); // 装图片的盒子
+    var order = document.querySelector('.order'); // 顺序按钮
+    var random = document.querySelector('.random'); // 打乱按钮
+    var arrLi = []; // 定义空数组，添加8张图片
+
+    // 将图片顺序添加到添加到数组arrLi中，
+    for (var i = 0; i < 8; i++) {
+        arrLi.push('<li><img src="img/'+i+'.jpg" alt=""><b>'+(i+1)+'/8</b></li>');
+    }
+
+    //再遍历数组，把他添加到页面上
+    for (var j = 0; j < arrLi.length; j++) {
+        oUl.innerHTML += arrLi[j];
+    }
+
+//    console.log(arrLi);
+
+
+
+    // 顺序按钮添加事件
+    var state = true; // 默认从小到大状态
+
+    order.onclick = function (){
+        random.style.backgroundColor = '#bcbada';
+        order.style.backgroundColor = '#2d2748';
+
+        oUl.innerHTML = ''; // 先清空，再添加图片
+
+        if(state){ // 如果是从小到大状态，就改变状态为从大到小
+            for (var j = arrLi.length-1; j >= 0; j--) {
+                oUl.innerHTML += arrLi[j];
+            }
+            order.innerHTML = '从小到大';
+            state = false; // 从大到小状态
+        }else{ // 如果是从大到小状态，就改变状态为从小到大
+            for (var j = 0; j < arrLi.length; j++) {
+                oUl.innerHTML += arrLi[j];
+            }
+            order.innerHTML = '从大到小';
+            state = true; //从小到大状态
+        }
+    };
+
+
+    // 顺序打乱
+
+    var randomArr = []; // 定义一个空数组，盛放打乱的图片下标
+
+//    console.log(randomArr);
+
+
+    random.onclick = function (){
+        random.style.backgroundColor = '#2d2748';
+        order.style.backgroundColor = '#bcbada';
+
+        oUl.innerHTML = ''; // 先清空图片
+
+        //遍历标签数组，随机抽取不重复的8个数放在新数组randomArr中
+
+        for (var i = 0; i < arrLi.length; i++) {
+
+            var num = Math.round(Math.random()*7);
+
+            if(arrIndexOf(randomArr,num) == -1){ // 如果随机抽到的数字在数组中不存在，随机数添加到数组中
+                randomArr.push(num);
+            }else{
+                i--; // 如果抽到存在的情况下，循环次数就要增加一次，i就要减少一次
+            }
+        }
+
+        // 遍历 将图片按照随机取到数字作为图片下标，添加到页面中
+        for (var j = 0; j < randomArr.length; j++) {
+            oUl.innerHTML += arrLi[randomArr[j]];
+        }
+
+        randomArr = []; // 每一次利用完序列数组就清空掉
+
+    };
+
+
+
+
+
+    // 检测一个数在数组中是否存在，如果存在，返回下标，不存在返回-1；
+    function arrIndexOf(array,testObject) {
+        // array：需要遍历的数组，testObject：需要检测的对象
+        for (var i = 0; i < array.length; i++) {
+
+            if(array[i] == testObject){
+                return i; // 存在，返回下标
+            }
+        }
+        return -1; // 不存在返回-1
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        ul,li{
+            list-style: none;
+        }
+        .clearfix:after{
+            content: '';
+            display: block;
+            clear: both;
+        }
+        #contain{
+            width: 490px;
+            box-shadow: 0 0 10px #000;
+            padding: 20px;
+            margin: 20px auto;
+        }
+        .year{
+            text-align: center;
+            font-size: 30px;
+            height: 50px;
+            line-height: 50px;
+        }
+        .year a,.year span{
+            text-decoration: none;
+            color: #000;
+            font-weight: 600;
+        }
+        .year a{
+            background-color: #ccc;
+            border-radius: 5px;
+        }
+        .year a:nth-child(1){
+            float: left;
+        }
+        .year a:nth-child(2){
+            float: right;
+        }
+
+        .week{
+            text-align: center;
+            font-size: 30px;
+            height: 50px;
+            line-height: 50px;
+            border-bottom: 2px solid #666;
+            margin: 30px 0;
+        }
+        .week span,.day span{
+            float: left;
+            width: 70px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            color: #666;
+            font-weight:bold;
+            border-radius: 5px;
+        }
+        .day{
+            text-align: center;
+            font-size: 30px;
+        }
+        .day span{
+            color: #000;
+        }
+
+
+        .hours{
+            text-align: center;
+            margin-top: 20px;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="contain">
+    <div class="year">
+        <a href="javascript:;">上个月</a>
+        <a href="javascript:;">下个月</a>
+        <span></span>
+    </div>
+
+    <div class="hours"></div>
+
+    <div class="week clearfix">
+        <span>日</span>
+        <span>一</span>
+        <span>二</span>
+        <span>三</span>
+        <span>四</span>
+        <span>五</span>
+        <span>六</span>
+    </div>
+
+    <div class="day clearfix"></div>
+</div>
+
+
+
+<script>
+    // 获取元素
+
+    var titleTime = document.querySelector('.year span'); // 年份元素
+    var dayTime = document.querySelector('.day'); // 放日期的盒子元素
+    var btns = document.querySelectorAll('a'); // 切换月份的按钮
+    var hour = document.querySelector('.hours');
+    var num = 0; // 记录向前和向后推一个月
+
+    // 具体的时间设置
+    hourFn();
+
+    var timer = 0;
+
+    timer = setInterval(function(){
+        hourFn();
+    },1000);
+
+
+
+    calendar();
+
+    function calendar(){
+        dayTime.innerHTML = '';
+
+        // 设置年份
+        var date = new Date(); // 获取当前时间
+        date.setMonth(date.getMonth()+num); // num 为偏移量，在当前月基础上加减
+
+        titleTime.innerHTML = date.getFullYear()+'年'+ ' ' +(date.getMonth()+1)+'月';
+
+        // 设置对应的日期数和星期对应
+
+        date = new Date(); // 获取当前时间
+        date.setMonth(date.getMonth()+num); // num 为偏移量，在当前月基础上加减
+        date.setDate(1); // 将日期设置为当月的第一天
+        var week = date.getDay(); // 获取当月的第一天的星期数
+
+        for (var i = 0; i < week; i++) { // 将前面没有日期对应的星期用空格代替
+
+            dayTime.innerHTML += '<span></span>'
+
+        }
+
+
+        //设置具体的日期
+        date = new Date(); // 获取当前时间
+        date.setMonth(date.getMonth()+num); // num 为偏移量，在当前月基础上加减
+        date.setMonth(date.getMonth()+1); // 往后推一个月
+        date.setDate(0); // 获取上个月的最后一天，此时就是当前月的最后一天
+
+        var dateNum = date.getDate(); // 获取最后一天的日期
+        for (var i = 0; i < dateNum; i++) {
+
+            dayTime.innerHTML += '<span>'+(i+1)+'</span>';
+
+        }
+
+
+        // 设置星期礼拜日和礼拜六的背景色
+        var oSpans = dayTime.querySelectorAll('.day span');
+
+        for (var i = 0; i < oSpans.length; i++) {
+
+            if(i%7==0||i%7==6){
+                oSpans[i].style.color = 'pink';
+            }
+
+        }
+
+
+        // 设置背景色
+        date = new Date(); // 获取当前时间
+        date.setMonth(date.getMonth()+num); // num 为偏移量，在当前月基础上加减
+        var dateColor = date.getDate();
+//        console.log(date.getDate());
+        for (var i = 0; i < oSpans.length; i++) {
+
+            oSpans[dateColor+1].style.backgroundColor = 'red';
+            oSpans[dateColor].style.color = '#fff';
+        }
+
+    }
+
+
+
+
+    // 上个月
+
+    btns[0].onclick = function (){
+        num--;
+        calendar();
+    };
+
+    // 下个月
+
+    btns[1].onclick = function (){
+        num++;
+        calendar();
+    };
+
+
+
+
+    function hourFn(){
+
+
+        //国际日期标准，第一天是星期天
+        var week = ['日','一','二','三','四','五','六'];
+        var date = new Date();
+        var y = date.getFullYear();
+        var m = date.getMonth()+1;
+        var d = date.getDate();
+        var w = date.getDay();
+        var h = date.getHours();
+        var mi = date.getMinutes();
+        var s = date.getSeconds();
+        if(h<10) h='0'+h;
+        if(mi<10) mi='0'+mi;
+        if(s<10) s='0'+s;
+        hour.innerHTML = y+'年'+m+'月'+d+'日 星期'+week[w]+' '+h+'时'+mi+'分'+s+'秒';
+    }
+
+
+
+
+
+</script>
+
+</body>
+</html>

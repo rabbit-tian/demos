@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-size: 20px;
+            color: #f1f1f1;
+        }
+
+        #contain {
+            width: 800px;
+            height: 600px;
+            background-color: #a545d3;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h3 {
+            line-height: 50px;
+        }
+
+        section {
+            width: 600px;
+            height: 500px;
+            border: 5px solid #fff;
+            margin-left: 180px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            position: absolute;
+            bottom: 50px;
+            left: 54%;
+            background-color: #555;
+            color: #fff;
+            padding: 5px;
+            border-radius: 10px;
+            z-index: 10;
+        }
+
+        #contain div {
+            position: absolute;
+            left: 240px;
+            top: 150px;
+            background-color: purple;
+            width: 80px;
+            height: 80px;
+            border-radius: 40px;
+            text-align: center;
+            border: 1px solid #fff;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        #contain div span {
+            display: block;
+            margin-top: 10px;
+        }
+
+        #contain div:nth-child(2) {
+            top: 260px;
+            background-color: gray;
+        }
+
+        img {
+            border: 0;
+            width: 50px;
+            user-select: none;
+            height: 50px;
+            cursor: pointer;
+            position: absolute;
+            top: 0px;
+        }
+
+        #contain .mark {
+            width: 300px;
+            /*height: 200px;*/
+            /*line-height: 200px;*/
+            left: 350px;
+            top: 240px;
+            position: absolute;
+            border: 1px solid #FFFF;
+            /*display: none;*/
+            padding: 60px 30px;
+        }
+        .mark input{
+            height: 50px;
+            display: inline-block;
+            border: 1px solid #000;
+            font-size: 24px;
+            padding: 0 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .mark p{
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+<div id="contain">
+    <header>
+        <h3>你的鼠标有多快？</h3>
+        <span>游戏说明："点击游戏"，随机掉下表情点中它，千万别让它掉下去！</span>
+
+    </header>
+
+    <div><span>0分</span>失分</div>
+    <div><span>0分</span>得分</div>
+
+    <section>
+        <!--<img src="img/1.png">-->
+    </section>
+    <a href="javascript:;">开始游戏</a>
+
+    <div class="mark">
+        <p>哎呦，你挂了！！！</p>
+        <input type="button" value="重新开始">
+        <input type="button" value="结束游戏">
+    </div>
+</div>
+
+
+<script src="MTween.js"></script>
+<script>
+    /*
+    *  游戏分析
+    *
+    *  1.工具条的动画
+    *  2.往游戏狂添加掉落的小表情
+    *  3.点击小表情，抖动后消失，得分加1
+    *  4.小表情掉落到游戏框外，游戏框抖动一下，失去 1分
+    *  5.失分大于5，结束游戏
+    *
+    *
+    * */
+
+
+
+    // 获取元素
+    var aBtn = document.querySelector('a'); // 开始游戏
+    var scoreDiv = document.querySelectorAll('#contain div'); //分数盒子
+    var scoreSpan = document.querySelectorAll('#contain div span'); // 第一个是失分，第二个是得分
+    var section = document.querySelector('section'); // 运动块
+    var mark = document.querySelector('.mark');
+    var inpBtn = mark.querySelectorAll('input');
+
+    var more = 0; // 记录得分
+    var less = 0; // 记录失分
+
+
+    // 点击"开始游戏按钮"，得分和失分盒子向左运动，按钮盒子向下运动至消失
+
+    // 重新开始和开始游戏的按钮事件一样
+    inpBtn[0].onclick = aBtn.onclick = function () {
+        mark.style.display = 'none'; //游戏结束的提示框隐藏
+
+        less = 0; // 失分清零
+        more = 0; // 得分清零
+        scoreSpan[0].innerHTML = less + '/分';// 失分清零
+        scoreSpan[1].innerHTML = more + '/分';// 得分清零
+
+        //得分失分盒子向左运动
+        MTween(scoreDiv[1], -160, 400, 'left', 'linear');
+        MTween(scoreDiv[0], -160, 400, 'left', 'linear');
+
+        //按钮盒子向下运动至消失
+        MTween(aBtn, -100, 400, 'bottom', 'linear', function () {
+            // 当工具条都走完，再进行小表情的运动
+            gameFn(); // 表情块开始运动
+
+        });
+
+    };
+
+
+
+    // 游戏结束的按钮事件
+    inpBtn[1].onclick = function (){
+        mark.style.display = 'none'; //游戏结束的提示框隐藏,结束游戏
+        less = 0; // 失分清零
+        more = 0; // 得分清零
+        scoreSpan[0].innerHTML = less + '/分';// 失分清零
+        scoreSpan[1].innerHTML = more + '/分';// 得分清零
+    };
+
+
+
+    // 运动函数封装
+    function gameFn() {
+
+        // 往运动块 section 添加表情图片,添加随机表情
+        section.innerHTML = '<img src="img/' + Math.round(Math.random() * 10 + 1) + '.png">'; // 添加随机表情
+        var oImg = section.querySelector('img'); // 获取表情标签
+
+        // 设置表情的随机left值 0-550px
+        oImg.style.left = Math.round(Math.random() * 450 + 50) + 'px';
+
+        var dur = 4000 - 200 * more; // 设置小表情的运动时间，得分越多，时间越短，速度越快
+
+        // 让表情标签oImg运动起来
+        MTween(oImg, 500, dur, 'top', 'linear', function () {
+
+            // 运动到底部，让运动外框颤抖
+            shake(section, 'top', 20, 5, function () {
+                less++;
+                if (less <= 2) {
+                    gameFn(); // 每次小表情运动完，继续下一个表情运动
+                    scoreSpan[0].innerHTML = less + '/分'; // 失分记录
+                } else { // 如果失分数超过了一定数，结束本轮游戏
+                    mark.style.display = 'block'; // 游戏结束的提示框
+
+                    //得分失分盒子向右运动
+                    MTween(scoreDiv[1], 160, 400, 'left', 'linear');
+                    MTween(scoreDiv[0], 160, 400, 'left', 'linear');
+
+                    //按钮盒子向上运动到原位
+                    MTween(aBtn, 100, 400, 'bottom', 'linear');
+                }
+
+            });
+
+        });
+
+
+
+
+        oImg.click = false; // 默认未点击状态
+
+        // 点击表情，表情发生抖动
+        oImg.onclick = function () {
+            if (oImg.click) return; // 如果是点击状态，直接跳出循环
+            oImg.click = true;  // 运动后改成运动状态
+
+            this.src = 'img/qq.png';
+
+            shake(this, 'left', 30, 5, function (_this) { //_this 代表事件对象this
+                _this.style.display = 'none'; // 点击表情后，让当前表情消失，进行下个表情运动
+
+                more++; // 每点一次，得分加 1
+                scoreSpan[1].innerHTML = more + '/分';
+
+                oImg.click = false; // 运动结束后，改成未点击状态，继续下一次运动
+                gameFn(); // 进行下次运动
+            }); // 抖动函数
+        };
+
+    }
+
+</script>
+
+</body>
+</html>
