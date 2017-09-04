@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>无标题文档</title>
+    <style>
+        body {
+            margin: 0;
+            line-height: 26px;
+        }
+
+        #contain {
+            width: 550px;
+            margin: 100px auto;
+            border: 20px solid #888;
+            padding: 5px;
+            position: relative;
+        }
+
+        #contain span {
+            color: #06F;
+            text-decoration: underline;
+        }
+
+        #contain p {
+            text-indent: 2em;
+        }
+
+        .message {
+            width: 300px;
+            /*height: 80px;*/
+            border: 1px solid #555;
+            background-color: #f2f2f2;
+            font-size: 12px;
+            overflow: hidden;
+            position: absolute;
+            padding: 2px;
+            display: none;
+        }
+
+
+    </style>
+
+</head>
+
+<body>
+<div id="contain">
+    <p>1975年7月31日，3号<span
+            c="台风（typhoon），和飓风都是产生于热带洋面上的一种强烈的气旋，只是发生地点不同，叫法不同，在北太平洋西部、国际日期变更线以西，包括南中国海范围内发生的强热带气旋（其中风速要超过３２．６米／秒）称为台风；而在大西洋或北太平洋东部的热带气旋则称飓风，也就是说在美国一带称飓风，在菲律宾、中国、日本一带叫台风。"
+            l="http://www.hudong.com/wiki/%E5%8F%B0%E9%A3%8E">台风</span>在太平洋上空形成。8月7日，台风进入驻马店地区。</p>
+    <p>在台风尚未到达时，<span c="区号： 0396 邮编：463000 位置：位于河南省南部 面积：1.5万平方公里 人口：795万 行政区划：辖驻马店市和汝南、确山、上蔡、西平、遂平、平舆、正阳、泌阳九县 概况"
+                      l="http://www.hudong.com/wiki/%E9%A9%BB%E9%A9%AC%E5%BA%97%E5%B8%82">驻马店</span>地区就已经普降暴雨。8月4日至8日，<span
+            c='中国（China），位于东亚，是一个以华夏文明为主体、中华文化为基础，以汉族为主要民族的统一多民族国家，通用汉语。中国疆域内的各个民族统称为中华民族，龙是中华民族的象征。'
+            l='http://baike.baidu.com/view/61891.htm'>暴雨</span>中心最大过程雨量达1631毫米，8月5日至7日3天的最大降雨量为1605毫米，相当于驻马店地区年平均雨量的1.8倍。4日至8日，超过400毫米的降雨面积达19410平方公里，大于1000毫米的降水区集中在<span
+            c='京广铁路是指从北京到广东广州的铁路，全长2324千米。原分为北南两段。北段从北京到湖北汉口，称为"京汉铁路"，1906年4月建成。南段从广东广州到湖北武昌，称为"粤汉铁路"，于1936年4月建成。在1957年武汉长江大桥通车后，两条铁路接轨，并改名为京广铁路。于1936年4月建成。在1957年武汉长江大桥通车后，两条铁路接轨，并改名为京广铁路于1936年4月建成。在1957年武汉长江大桥通车后，两条铁路接轨，并改名为京广铁路'
+            l="http://www.hudong.com/wiki/%E4%BA%AC%E5%B9%BF%E9%93%81%E8%B7%AF">京广铁路</span>以西板桥水库、石漫滩水库到方城一带。暴雨的降水强度，在暴雨中心——位于板桥水库的林庄，最大6小时<span
+            c='从气象学上的角度来讲，所谓雨量，就是在一定时段内，降落到水平面上（无渗漏、蒸发、流失等）的雨水深度。用雨量计测定。以毫米为单位。气象台站在有降水的情况下，每隔6小时测量一次。'
+            l='http://baike.baidu.com/link?url=2JJ3gg2srLtRwt_FEdCvmu7rLhz0bE5EaEncKM2UhBFteO84dsbkHDjIuchRZOKk'>雨量</span>为830毫米，超过了当时世界最高记录——美国宾州密士港的782毫米；最大24小时雨量为1060毫米，也创造了<span
+            c='中国（China），位于东亚，是一个以华夏文明为主体、中华文化为基础，以汉族为主要民族的统一多民族国家，通用汉语。中国疆域内的各个民族统称为中华民族，龙是中华民族的象征。'
+            l='http://baike.baidu.com/view/61891.htm'>中国</span>同类指标的最高<span
+            c='中国（China），位于东亚，是一个以华夏文明为主体、中华文化为基础，以汉族为主要民族的统一多民族国家，通用汉语。中国疆域内的各个民族统称为中华民族，龙是中华民族的象征。'
+            l='http://baike.baidu.com/view/61891.htm'>记录</span>。</p>
+</div>
+
+<div class="message"></div>
+
+
+<script>
+    var oSpans = document.querySelectorAll('#contain span');
+    var contain = document.querySelector('#contain');
+    var message = document.querySelector('.message');
+    var timer = 0;
+
+    var containWidth = contain.clientWidth; // 大框的宽度
+    var containHeight = contain.clientHeight; // 大框的高度
+    var containLeft = contain.offsetLeft; // 大框到body的左边距
+    var containLeftBorder = contain.clientLeft; // 大框的左边框宽度
+    var containTop = contain.offsetTop; // 大框到body的上边距
+    var containTopBorder = contain.clientLeft; // 大框的上边框宽度
+
+    // 遍历所有关键字span，添加鼠标移入事件
+    for (var i = 0; i < oSpans.length; i++) {
+
+        oSpans[i].onmouseover = function () {
+            clearTimeout(timer);
+
+            var content = this.getAttribute('c'); // 获取每个span内对应的内容c
+            var aHref = this.getAttribute('l'); // 获取每个span内对应的内容c
+
+            message.innerHTML = content + '<a href="+aHref+">' + '详情点击' + '</a>';
+            message.style.display = 'block';
+
+            // 左边值得计算
+            var spanLeft = this.offsetLeft; // span 到左边框的距离
+            var mesWidth = message.offsetWidth; // 提示框message的宽度
+
+            if (mesWidth <= containWidth - spanLeft) {
+                message.style.left = containLeft + containLeftBorder + spanLeft + 'px';
+            } else {
+                message.style.left = containLeft + containLeftBorder + containWidth - mesWidth - 10 + 'px';
+            }
+
+            // 右边值得计算
+            var spanTop = this.offsetTop; // span 到上边框的距离
+            var mesHeight = message.offsetHeight; // 提示框message的高度
+            var spanHeight = this.offsetHeight;
+
+            if (mesHeight <= containHeight - spanTop - spanHeight) {
+                message.style.top = containTop + containTopBorder + spanTop + spanHeight + 'px';
+            } else if (mesHeight <= spanTop) {
+                message.style.top = containTop + containTopBorder + spanTop - mesHeight + 'px';
+            } else {
+                message.style.left = containLeft + containLeftBorder + spanLeft - mesWidth + 'px';
+                message.style.top = containTop + contain.offsetHeight - mesHeight - containTopBorder - 10 + 'px';
+            }
+        };
+
+        // 鼠标移出时，隐藏提示框
+        oSpans[i].onmouseout = function () {
+            timer = setTimeout(function () {
+                message.style.display = 'none';
+            }, 300)
+        };
+
+        message.onmouseover = function () {
+            clearTimeout(timer);
+        };
+        message.onmouseout = function () {
+            timer = setTimeout(function () {
+                message.style.display = 'none';
+            }, 300)
+        }
+
+    }
+
+
+</script>
+</body>
+</html>

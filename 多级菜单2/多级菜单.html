@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>多级菜单</title>
+    <meta charset="utf-8">
+    <style>
+        body,html,ul,li,h2 {
+            margin: 0;
+            padding: 0;
+        }
+        li {
+            list-style: none;
+        }
+        .menu-list {
+            position: absolute;
+            left: 100px;
+            top: 40px;
+            border: 1px solid #000;
+            padding: 0 4px;
+        }
+        .menu-list ul ul {
+            padding-left: 30px;
+            display: none;
+        }
+        .menu-list ul ul.active {
+            display: block;
+        }
+    </style>
+
+</head>
+
+<body>
+<div class="menu-list">
+
+</div>
+
+
+<script src="./data.js"></script>
+
+<script>
+    var menuList = document.querySelector('.menu-list');
+    var data = menuData; // 存放数据的数组
+
+    menuList.innerHTML = createElement(data); // 执行函数
+
+    // 先把data里的数据添加到页面中，函数封装
+
+    function createElement(data) {
+        var str = '<ul>'; // 添加ul标签
+
+        for (var i = 0; i < data.length; i++) {
+            str += '<li><h2><span>+</span>'+data[i].name+'</h2>';
+
+            if(data[i].children && data[i].children.length){
+                str += createElement(data[i].children);
+            }
+
+            str += '</li>';
+        }
+        str += '</ul>';
+
+        return str;
+    }
+
+
+    /*
+    * 多级菜单的性能提升
+    *
+    * 展开一个菜单时，再给子菜单添加内容，可以减少性能的消耗
+    *
+    * */
+
+    // 菜单展开和收缩的操作
+
+    var firstMenuList = menuList.firstElementChild; // 获取第一层菜单
+
+    tabMenuList(firstMenuList);
+
+    function tabMenuList(list){
+        var childrenMenu = list.children;
+
+        for (var i = 0; i < childrenMenu.length; i++) {
+            var caption = childrenMenu[i].children[0];
+
+            caption.onclick = function (){
+                // 点击h2,展开子菜单的ul
+                var uls = this.parentNode.parentNode.querySelectorAll('ul'); // 所有的ul
+                var h2Silbing = this.nextElementSibling;
+
+                if(!h2Silbing) return;
+
+                if(h2Silbing.className === 'active'){
+                    h2Silbing.className = '';
+                    this.firstElementChild.innerHTML = '+';
+                }else{
+                    // 展开前先收起其他的ul
+                    for (var i = 0; i < uls.length; i++) {
+
+                        uls[i].className = '';
+                        uls[i].previousElementSibling.firstElementChild.innerHTML= '+';
+
+                    }
+                    h2Silbing.className = 'active';
+                    this.firstElementChild.innerHTML = '-';
+
+                    // 该当前子菜单添加点击事件
+                    tabMenuList(h2Silbing);
+                }
+
+            }
+        }
+
+
+    }
+
+
+
+
+</script>
+</body>
+</html>
