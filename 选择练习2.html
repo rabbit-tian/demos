@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body, ul, li, h3, p {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        .clearfix:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        b, strong {
+            font-weight: 400;
+        }
+
+        #contain {
+            width: 800px;
+            box-shadow: 0 0 10px #ccc;
+            margin: 20px auto;
+        }
+
+        .header {
+            background-color: #d7efed;
+            padding: 0 20px;
+            height: 50px;
+            line-height: 50px;
+        }
+
+        .header span {
+            float: left;
+        }
+
+        .header ul {
+            float: left;
+        }
+
+        .header ul li {
+            border: 1px solid #75addf;
+            height: 30px;
+            line-height: 30px;
+            margin-top: 10px;
+            padding: 0 5px;
+            float: left;
+            margin-right: 5px;
+        }
+
+
+        .header ul li strong {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            line-height: 15px;
+            text-align: center;
+            background-color: #ccc;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .header ul li b {
+            color: #75addf;
+        }
+
+        .main {
+            padding: 20px;
+            background-color: #e8f6f4;
+        }
+
+        .main ul {
+            color: #555;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .main ul {
+            height: 50px;
+            line-height: 50px;
+        }
+        .main ul li:after{
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        .main ul li span {
+            color: #9fa0a5;
+            float: left;
+        }
+
+        .list {
+            float: left;
+        }
+
+        .list li {
+            float: left;
+            margin-right: 12px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="contain">
+    <div class="header">
+        <span>你的选择是：</span>
+        <ul>
+            <!--<li>-->
+            <!--<b>苹果</b>-->
+            <!--<strong>x</strong>-->
+            <!--</li>-->
+        </ul>
+    </div>
+
+    <div class="main clearfix">
+        <ul>
+            <li class="brand">
+                <span>品牌：</span>
+                <ul class="list clearfix">
+                    <li>小米</li>
+                    <li>锤子</li>
+                    <li>魅族</li>
+                    <li>华为</li>
+                    <li>OPPO</li>
+                    <li>三星</li>
+                    <li>vivo</li>
+                    <li>乐视</li>
+                    <li>360</li>
+                    <li>中兴</li>
+                    <li>索尼</li>
+                </ul>
+            </li>
+            <li class="size">
+                <span>尺寸：</span>
+                <ul class="list clearfix">
+                    <li>3.0英寸以下</li>
+                    <li>3.0-3.9英寸</li>
+                    <li>4.0-4.5英寸</li>
+                    <li>4.6-4.9英寸</li>
+                    <li>5.0-5.5英寸</li>
+                    <li>6.0英寸以上</li>
+                </ul>
+            </li>
+            <li class="system" >
+                <span>系统：</span>
+                <ul class="list clearfix">
+                    <li>安卓(Android)</li>
+                    <li>苹果(IOS)</li>
+                    <li>微软(WindowsPhone)</li>
+                    <li>无</li>
+                    <li>其他</li>
+                </ul>
+            </li>
+            <li class="network">
+                <span>网络：</span>
+                <ul class="list clearfix">
+                    <li>联通3G</li>
+                    <li>双卡单4G</li>
+                    <li>双卡双4G</li>
+                    <li>联通4G</li>
+                    <li>电信4G</li>
+                    <li>移动4G</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+
+<script>
+/*
+
+   注： 以下用json数据的思想做本次练习
+
+   初始化：
+
+        设计一个json用来存数据
+*
+* 1.收集数据
+*   span  点击的时候  设置数据的值
+*
+
+* 2.显示数据
+*   找到要显示的框
+*   创建显示的内容
+*       显示内容中的小xx添加点击事件
+*              删除数据
+*              重新渲染
+*              清除对应标红的数据
+
+* */
+
+    // 初始化设计数据结构
+
+    var json = {
+        "brand": "",
+        "size": "",
+        "system": "",
+        "network":""
+    };
+
+
+    // 获取所有的选择元素，添加点击事件
+
+    var lis = document.querySelectorAll('.list li');
+
+    for (var i = 0; i < lis.length; i++) {
+
+        lis[i].onclick = function (){
+
+            /*----------------界面上的操作--------------------------*/
+            // 先获取要清除点击元素的同级元素li
+            var lis = this.parentNode.querySelectorAll('li');
+
+            // 点击前清除样式
+            for (var i = 0; i < lis.length; i++) {
+                lis[i].style.color = '';
+            }
+
+            // 改变界面上li的颜色
+            this.style.color = 'red';
+
+            /*-------------------数据的操作--------------------------*/
+            // 将点击到的li内容添加到对应的json中,根据点击元素父级的class名和json的键是否相等
+
+            json[this.parentNode.parentNode.className] = this.innerHTML;
+//            console.log(json);
+
+
+            /**************将选中的内容渲染到页面上********************/
+
+            // 先创建节点，形成结构
+
+            show();
+        }
+
+        
+    }
+
+
+
+
+
+    function show(){
+
+        // 先创建节点，形成结构
+        var headUl = document.querySelector('.header ul'); // 获取盛放元素节点的盒子
+        // 每次渲染前先清空上次渲染的界面
+        headUl.innerHTML = '';
+        // 遍历json里的数据，将每一个存在数据的键的键值添加到页面上
+        for(var key in json){
+            // 如果json里的内容不存在，跳出本次循环，继续下次循环
+            if(!json[key]){
+                continue;
+            }
+
+            var li = document.createElement('li');
+            var b = document.createElement('b');
+            var strong = document.createElement('strong');
+
+            b.innerHTML = json[key];
+            strong.innerHTML = 'x';
+
+
+            // 渲染界面后给界面上的"x"标签添加点击事件
+
+            strong.onclick = function (){
+                //获取到点击元素的上个元素内容，作为删除json数据的标准  trim:去除首尾空格好比较
+
+                var prevText = this.previousElementSibling.innerHTML.trim();
+
+                /*--------------数据的清空--------------*/
+                // 遍历json数据，如果json内容和点击的内容相同时，就删除数据
+                for(var key in json){
+                    if(prevText == json[key]){
+                        json[key] = '';
+                        break; // 只要找到对象删除后就跳出循环，节省性能
+                    }
+                }
+
+                // 重新渲染页面内容
+                show();
+
+                /*---------------界面样式的清空-------------*/
+
+                for (var i = 0; i < lis.length; i++) {
+                    if(lis[i].innerHTML.trim() == prevText){
+                        lis[i].style.color = '';
+                        break; // 节省性能，找到后就结束本次循环
+                    }
+
+                }
+
+            };
+
+
+            li.appendChild(b);
+            li.appendChild(strong);
+            headUl.appendChild(li); // 将最终结果渲染到页面上
+
+
+        }
+    }
+
+
+</script>
+</body>
+</html>

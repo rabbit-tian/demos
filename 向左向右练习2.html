@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body, ul, li {
+            margin: 0;
+            padding: 0;
+        }
+        ul,li{
+            list-style: none;
+        }
+
+        #contain {
+            width: 550px;
+            height: 500px;
+            box-shadow: 0 0 10px #000;
+            margin: 10px auto;
+            padding: 0 20px;
+            background-color: #e27089;
+            color: #fff;
+            font-weight: 600;
+            overflow: hidden;
+        }
+
+        .leftList{
+            width: 200px;
+            height: 500px;
+            float: left;
+        }
+        .rightList{
+            height: 500px;
+            width: 200px;
+            float: right;
+        }
+
+        .leftList li, .rightList li {
+            height: 50px;
+            line-height: 50px;
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+        .btn{
+            float: left;
+            width: 100px;
+            height: 500px;
+            background-color: pink;
+            text-align: center;
+            padding-top: 100px;
+        }
+        .btn input{
+            cursor: pointer;
+            width: 60px;
+            height: 30px;
+            background-color: #e27089;
+            color: #f1f1f1;
+            outline: none;
+            font-weight: 600;
+        }
+        li.active{
+            background-color: deeppink;
+        }
+    </style>
+</head>
+<body>
+<div id="contain">
+    <ul class="leftList">
+        <li>1. 小程序</li>
+        <li>2. AJAX</li>
+        <li>3. jQuery</li>
+        <li>4. JS基础-2</li>
+        <li>5. 移动端实践</li>
+    </ul>
+
+    <div class="btn">
+        <p><input type="button" value="<向左"></p>
+        <p><input type="button" value="向右>"></p>
+    </div>
+
+    <ul class="rightList">
+        <li>6. JS基础-1</li>
+        <li>7. Node</li>
+        <li>8. ECMA6</li>
+        <li>9. 面向对象</li>
+        <li>10. React</li>
+    </ul>
+
+</div>
+
+
+<script>
+    // 获取元素
+    var Lis = document.querySelectorAll('li');
+    var rightUl = document.querySelector('.rightList');
+    var leftUl = document.querySelector('.leftList');
+
+    var btns = document.querySelectorAll('input');
+
+    // 点击li，改变背景色
+    for (var i = 0; i < Lis.length; i++) {
+        Lis[i].onclick = function (){
+            if(!this.isclick){
+                this.className = 'active';
+                this.isclick = true;
+            }else{
+                this.className = '';
+                this.isclick = false;
+            }
+
+        }
+    }
+
+
+    // 点击向右移动按钮
+    btns[1].onclick = function (){
+        var leftLis = document.querySelectorAll('.leftList li');
+        for (var i = 0; i < leftLis.length; i++) {
+
+            if(leftLis[i].isclick){
+                leftLis[i].className = '';
+                leftLis[i].isclick = false;
+                rightUl.appendChild(leftLis[i]);
+            }
+        }
+    };
+
+    btns[0].onclick = function (){
+        var rightLis = document.querySelectorAll('.rightList li');
+        for (var i = 0; i < rightLis.length; i++) {
+
+            if(rightLis[i].isclick){
+                rightLis[i].className = '';
+                rightLis[i].isclick = false;
+                leftUl.appendChild(rightLis[i]);
+            }
+
+        }
+    }
+
+
+
+</script>
+
+</body>
+</html>

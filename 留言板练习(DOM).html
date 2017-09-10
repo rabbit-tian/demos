@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body,ul,li,p{
+            margin: 0;
+            padding: 0;
+        }
+        ul,li{
+            list-style: none;
+        }
+
+
+
+        #contain{
+            width: 600px;
+            height: 500px;
+            box-shadow: 0 0 10px #000;
+            margin: 20px auto;
+            text-align: center;
+            overflow: hidden;
+        }
+        form{
+            text-align: center;
+            padding: 10px;
+            margin-top: 30px;
+        }
+        textarea{
+            width: 300px;
+            height: 100px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            resize: none;
+        }
+        input[type="button"]{
+            width: 80px;
+            height: 30px;
+            background-color: #fff;
+            border-radius: 12px;
+        }
+        ul{
+            margin-top: 20px;
+        }
+        ul img{
+            border: 0;
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+
+        }
+        li span{
+            display: inline-block;
+            width: 260px;
+            height: 30px;
+            line-height: 30px;
+            text-align: left;
+            vertical-align: top;
+            border: 1px solid #555;
+            padding: 0 5px;
+            border-radius: 10px;
+            margin-left: 10px;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="contain">
+    <form>
+        <p><textarea></textarea></p>
+        <input type="button" value="提交">
+    </form>
+
+    <ul>
+        <!--<li>-->
+            <!--<img src="img/1.png">-->
+            <!--<span>你好</span>-->
+        <!--</li>-->
+    </ul>
+</div>
+
+
+<script>
+    // 获取元素
+    var textBox = document.querySelector('textarea');
+
+    var btn = document.querySelector('input');
+
+    var oUl = document.querySelector('ul');
+
+    var num = 0;
+
+    // 添加点击事件
+
+    btn.onclick = function (){
+        if(!textBox.value){
+            alert('请输入内容');
+        }else{
+
+            num ++;
+
+            // 创建元素
+            var oLi = document.createElement('li');
+            var oImg = document.createElement('img');
+            var oSpan = document.createElement('span');
+
+            var text = textBox.value; // 填写内容
+
+            oLi.appendChild(oImg);
+            oLi.appendChild(oSpan);
+            oSpan.innerHTML = text;
+            oImg.src = 'img/'+(num%2+1)+'.png';
+
+            // 添加元素
+
+            if(!oUl.children[0]){
+                oUl.appendChild(oLi);
+                // 清空输入框
+                textBox.value = '';
+            }else{
+                oUl.insertBefore(oLi,oUl.children[0]);
+                // 清空输入框
+                textBox.value = '';
+            }
+        }
+
+    }
+
+
+
+
+</script>
+</body>
+</html>

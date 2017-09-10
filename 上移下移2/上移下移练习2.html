@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body, ul, li, p, h3, b {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        .clearfix:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        #contain {
+            width: 500px;
+            height: 500px;
+            background-color: hotpink;
+            margin: 20px auto;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        h3 {
+            height: 80px;
+            line-height: 80px;
+            text-align: center;
+            font-size: 30px;
+            margin-bottom: 50px;
+        }
+
+        ul {
+            padding: 0 50px;
+            position: relative;
+        }
+
+        ul li {
+            width: 300px;
+            height: 50px;
+            line-height: 50px;
+            box-shadow: 0 0 10px #000;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 0 20px;
+            color: #e27089;
+            margin-bottom: 20px;
+        }
+
+        li b {
+            float: left;
+        }
+
+        li span {
+            float: right;
+            width: 50px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border: 2px solid #e27089;
+            margin-left: 8px;
+            border-radius: 3px;
+            margin-top: 6px;
+            cursor: pointer;
+        }
+
+        li span:hover {
+            background-color: #e27089;
+            color: #fff;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="contain">
+    <h3>DOM：元素的上移和下移</h3>
+
+    <ul>
+        <li class="clearfix">
+            <b>1.javaScript</b>
+            <span class="up">上移</span>
+            <span class="down">下移</span>
+        </li>
+        <li class="clearfix">
+            <b>2.AJAX</b>
+            <span class="up">上移</span>
+            <span class="down">下移</span>
+        </li>
+        <li class="clearfix">
+            <b>3.CANVAS</b>
+            <span class="up">上移</span>
+            <span class="down">下移</span>
+        </li>
+        <li class="clearfix">
+            <b>4.jQuery</b>
+            <span class="up">上移</span>
+            <span class="down">下移</span>
+        </li>
+        <li class="clearfix">
+            <b>5.Java</b>
+            <span class="up">上移</span>
+            <span class="down">下移</span>
+        </li>
+    </ul>
+</div>
+
+<script src="mtween.js"></script>
+<script>
+    // 获取元素
+    var oUl = document.querySelector('ul');
+    var oLis = document.querySelectorAll('ul li');
+    var ups = document.querySelectorAll('.up');
+    var downs = document.querySelectorAll('.down');
+
+
+    // 初始化定位状态
+
+    // 先存储所有li的offsetTop值
+    for (var i = 0; i < oLis.length; i++) {
+        oLis[i].t = oLis[i].offsetTop
+    }
+    // 再把li的变成绝对定位，li的top值改为自己的offsetTop值，以保持页面原有的布局
+
+    for (var i = 0; i < oLis.length; i++) {
+
+        oLis[i].style.position = 'absolute';
+        oLis[i].style.top = oLis[i].t + 'px';
+        oUl.style.height = oLis[oLis.length-1].t + oLis[oLis.length-1].offsetHeight + 'px';
+    }
+
+
+    // 给上移按钮添加点击事件
+    for (var i = 0; i < ups.length; i++) {
+
+        ups[i].onclick = function (){
+            // 点击上移按钮，获取元素
+            var _thisLi = this.parentNode;
+
+            // 边界处理，如果当前li的上一个元素存在的话，把第一个li移动到最后一位，其余元素向上移动70
+            if(!_thisLi.previousElementSibling){
+
+                Mtween(_thisLi,280,300,'top','linear');
+
+                oLis = document.querySelectorAll('ul li'); // 重新获取排好序的li
+
+                for (var i = 1; i < oLis.length; i++) {
+
+                    Mtween(oLis[i],-70,300,'top','linear');
+                }
+            }else{
+                // 如果当前li的前一个元素存在的话，将当前li向上移动70，将当前li的前一个兄弟向下移动70
+                var prevLi = _thisLi.previousElementSibling;
+
+                Mtween(_thisLi,-70,300,'top','linear');
+                Mtween(prevLi,70,300,'top','linear');
+            }
+
+            // 最后要将DOM节点的位置换一下
+            oUl.insertBefore(_thisLi,prevLi);
+
+        }
+    }
+
+
+    // 给下移按钮添加点击事件
+
+    for (var i = 0; i < downs.length; i++) {
+
+        downs[i].onclick = function (){
+            // 获取当前元素
+            var parentLi = this.parentNode;
+
+            // 如果当前元素的下个兄弟不存在的话，
+            if(!parentLi.nextElementSibling){
+
+                var nextLi = oUl.firstElementChild; // 如果下个兄弟不存在，获取到ul的第一个孩子
+
+                // 当前元素移动到第一个位置，其余向上移动70
+                Mtween(parentLi,-280,300,'top','linear');
+
+                oLis = document.querySelectorAll('ul li'); // 重新获取排好序的li
+
+                for (var i = 0; i < oLis.length-1; i++) {
+
+                    Mtween(oLis[i],70,300,'top','linear');
+                }
+
+            }else{
+                nextLi = parentLi.nextElementSibling.nextElementSibling; 
+
+                // 如果当前元素的下个兄弟存在的话，当前元素向下移动70，下个兄弟向上移动70
+                Mtween(parentLi,70,300,'top','linear');
+                Mtween(parentLi.nextElementSibling,-70,300,'top','linear');
+            }
+
+
+            // 将当前元素插到其下下个兄弟的前面
+
+            oUl.insertBefore(parentLi,nextLi)
+        }
+    }
+
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

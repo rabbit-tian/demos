@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body, ul, li, h3, p {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        .clearfix:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        #contain {
+            width: 440px;
+            min-height: 440px;
+            background-color: #57bff2;
+            margin: 20px auto;
+            padding: 20px 100px;
+        }
+
+        #contain h3 {
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            color: #555;
+            font-size: 24px;
+        }
+
+        .info {
+            width: 400px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .info > li {
+            width: 200px;
+            height: 50px;
+            line-height: 50px;
+            /*border: 1px solid;*/
+            float: left;
+        }
+
+        .info > li input, .sexBox {
+            width: 80px;
+            height: 26px;
+            line-height: 26px;
+            text-align: center;
+            border: 1px solid #75addf;
+            border-radius: 20px;
+            outline: none;
+            padding: 0 10px;
+            display: inline-block;
+        }
+
+        .info .add {
+            width: 150px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            background-color: #32d3fe;
+            color: #fff;
+            border-radius: 20px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        #table {
+            margin-top: 60px;
+            background-color: #48a5bf;
+            color: #f3f3f3;
+            border-radius: 5px;
+        }
+
+        #table thead th {
+            width: 80px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+        }
+
+        #table b {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            margin-right: 5px;
+            background-color: #fff;
+        }
+
+        #table span {
+            cursor: pointer;
+            width: 10px;
+        }
+
+        #table td {
+            text-align: center;
+            width: 80px;
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px solid #fff;
+            border-top: 1px solid #fff;
+            background-color: #fff;
+            color: #555;
+        }
+
+        .sexBox {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .select {
+            width: 100px;
+            position: relative;
+            left: 38px;
+            top: -10px;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .select li {
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            background-color: #ccc;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 2px;
+            cursor: pointer;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="contain">
+    <h3>信息的添加</h3>
+    <ul class="info clearfix">
+        <li>
+            <span>姓名</span>
+            <input type="text">
+        </li>
+        <li>
+            <span>年龄</span>
+            <input type="text">
+        </li>
+        <li>
+            <span>性别</span>
+            <!--<input type="text">-->
+            <div class="sexBox">请选择</div>
+            <ul class="select">
+                <li>男</li>
+                <li>女</li>
+            </ul>
+        </li>
+        <li>
+            <div class="add">添加</div>
+        </li>
+
+    </ul>
+
+
+    <table id="table" cellspacing="0" cellpadding="2">
+        <thead>
+        <tr>
+            <th><b></b>全选</th>
+            <th>ID</th>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>性别</th>
+            <th>移动</th>
+            <th>删除</th>
+        </tr>
+        </thead>
+
+        <!--<tbody>-->
+        <!--<tr>-->
+        <!--<td><b></b></td>-->
+        <!--<td>1</td>-->
+        <!--<td>tian</td>-->
+        <!--<td>18</td>-->
+        <!--<td>女</td>-->
+        <!--<td>-->
+        <!--<span>↑</span>-->
+        <!--<span>↓</span>-->
+        <!--</td>-->
+        <!--<td>-->
+        <!--<span>remove</span>-->
+        <!--</td>-->
+        <!--</tr>-->
+        <!--</tbody>-->
+
+    </table>
+</div>
+
+<script src="MTween.js"></script>
+<script>
+    /*
+    * 1.获取内容
+    *
+    * 2.根据内容生成表格
+    *
+    * 3.删除
+    *
+    * 4.全选
+    *
+    * 5.上移 下移
+    *
+    *注：如果创建的元素没有事件发生，就可以用字符创拼接的方法，如果有点击事件，可以创建元素，直接点击事件，不用for循环添加
+    *
+    * */
+
+    // 获取元素
+    var btn = document.querySelector('.add');
+    var inpTexts = document.querySelectorAll('.info input');
+    var table = document.querySelector('#table');
+    var totalB = table.querySelector('th b');
+
+    var num = 0; // 记录id
+
+
+    // 性别的选择
+
+    var sexBox = document.querySelector('.sexBox');
+    var select = document.querySelector('.select');
+    var lis = document.querySelectorAll('.select li');
+
+    // 性别点击触发
+    sexBox.onclick = function () {
+        if (getCss(select, 'height') == 62) {
+            MTween(select, -62, 200, 'height', 'linear');
+        }
+        if (getCss(select, 'height') == 0) {
+            MTween(select, 62, 200, 'height', 'linear');
+        }
+
+    };
+
+    for (var i = 0; i < lis.length; i++) {
+
+        lis[i].onclick = function () {
+            sexBox.innerHTML = this.innerHTML;
+            select.style.height = 0;
+        }
+
+    }
+
+
+    // 点击添加按钮，获取表单内的输入内容，然后创建元素布局，将获取的内容放在布局内
+
+    btn.onclick = function () {
+        // 获取input内的内容
+        var name = inpTexts[0].value;
+        var age = inpTexts[1].value;
+        var sex = sexBox.innerHTML;
+
+        if (!name || !age || sex === '请选择') {
+            alert('请填写信息');
+        } else {
+            num++;
+
+            // 创建表格身体body元素
+
+            var tbody = document.createElement('tbody');
+            var tr = document.createElement('tr');
+            var squre = document.createElement('b');
+
+            var tdSqure = document.createElement('td');
+            var tdId = document.createElement('td');
+            var tdName = document.createElement('td');
+            var tdAge = document.createElement('td');
+            var tdSex = document.createElement('td');
+            var tdMove = document.createElement('td');
+            var tdRemove = document.createElement('td');
+
+            var moveUp = document.createElement('span');
+            var moveDown = document.createElement('span');
+            var remove = document.createElement('span');
+
+            // 将各个元素的内容添加上
+            tdSqure.appendChild(squre);
+            tdId.innerHTML = num;
+            tdName.innerHTML = name;
+            tdAge.innerHTML = age;
+            tdSex.innerHTML = sex;
+            moveUp.innerHTML = '↑';
+            moveDown.innerHTML = '↓';
+            remove.innerHTML = 'remove';
+            tdMove.appendChild(moveUp);
+            tdMove.appendChild(moveDown);
+            tdRemove.appendChild(remove);
+
+            // 将所有的td组装到tr中
+            tr.appendChild(tdSqure);
+            tr.appendChild(tdId);
+            tr.appendChild(tdName);
+            tr.appendChild(tdAge);
+            tr.appendChild(tdSex);
+            tr.appendChild(tdMove);
+            tr.appendChild(tdRemove);
+
+            // 将tr放到tbody中,tbody放到table中
+            tbody.appendChild(tr);
+            table.appendChild(tbody);
+
+            // 清空样式
+            inpTexts[0].value = '';
+            inpTexts[1].value = '';
+            sexBox.innerHTML = '请选择';
+
+
+            // 删除操作
+
+            remove.onclick = function () {
+                table.removeChild(this.parentNode.parentNode.parentNode); // 删除当前点击的父级
+
+                // 当页面重新加入创建元素时，还要再一次判断单选是否全部选中
+                changeColor();
+
+                // 当table里面的body都被删除时，全选按钮取消选中状态
+                if (!table.children[1]) {
+                    totalB.style.backgroundColor = '';
+                    totalB.isclick = false;
+                }
+
+            };
+
+
+            // 获取页面中的所有选中图标小方格
+            // 单选按钮的点击事件
+            squre.onclick = function () {
+                if (this.isclick) {
+                    this.style.backgroundColor = '';
+                    this.isclick = false;
+                } else {
+                    this.style.backgroundColor = 'red';
+                    this.isclick = true;
+                }
+
+                // 改变全选按钮的状态
+                changeColor();
+            };
+
+            // 当页面重新加入创建元素时，还要再一次判断单选是否全部选中
+
+            changeColor();
+
+
+            // 全选按钮的点击事件
+
+            totalB.onclick = function () {
+                var squres = table.querySelectorAll('td b');
+
+                // 如果全选按钮是选中状态，就取消样式，否则添加样式
+                if (this.isclick) {
+                    this.style.backgroundColor = '';
+                    this.isclick = false;
+                    // 此时也取消单选的样式，选中的个数为0，sign=0
+                    for (var i = 0; i < squres.length; i++) {
+                        squres[i].style.backgroundColor = '';
+                        squres[i].isclick = false;
+                    }
+                } else {
+                    this.style.backgroundColor = 'red';
+                    this.isclick = true;
+
+                    // 此时加上单选的样式，sign = num,全部选中
+                    for (var i = 0; i < squres.length; i++) {
+                        squres[i].style.backgroundColor = 'red';
+                        squres[i].isclick = true;
+                    }
+                }
+            };
+
+
+            // 移动元素的操作, id不会改变
+
+            // 向上移动
+            moveUp.onclick = function () {
+
+                if (this.parentNode.parentNode.children[1].innerHTML == 1) {
+                    alert('到达底部啦');
+                } else {
+                    // 获取上个body
+                    var thisParent = this.parentNode.parentNode.parentNode;
+                    var prevParent = thisParent.previousElementSibling;
+                    var thisNum = parseInt(thisParent.children[0].children[1].innerHTML);
+                    var prevNum = parseInt(prevParent.children[0].children[1].innerHTML);
+
+
+                    thisParent.children[0].children[1].innerHTML = thisNum - 1;
+                    prevParent.children[0].children[1].innerHTML = prevNum + 1;
+
+                    table.insertBefore(thisParent, prevParent);
+
+
+                }
+            };
+
+            // 向下移动
+            moveDown.onclick = function () {
+
+                // 获取下个body
+                var thisParent = this.parentNode.parentNode.parentNode;
+                var nextParent = thisParent.nextElementSibling;
+
+                if (nextParent) {
+                    var thisNum = parseInt(thisParent.children[0].children[1].innerHTML);
+                    var nextNum = parseInt(nextParent.children[0].children[1].innerHTML);
+
+                    thisParent.children[0].children[1].innerHTML = thisNum + 1;
+                    nextParent.children[0].children[1].innerHTML = nextNum - 1;
+                    table.insertBefore(thisParent, nextParent.nextElementSibling);
+                } else {
+                    alert('到达底部啦')
+                }
+
+            }
+
+        }
+    };
+
+
+    // 函数封装：根据单选的个数设置全选的样式
+
+    function changeColor() {
+        var squres = table.querySelectorAll('td b');
+        var n = 0; // 记录单选的选中个数
+        for (var i = 0; i < squres.length; i++) {
+            if (squres[i].isclick) {
+                n++;
+            }
+        }
+        if (n == squres.length) {
+            totalB.style.backgroundColor = 'red';
+            totalB.isclick = true;
+        } else {
+            totalB.style.backgroundColor = '';
+            totalB.isclick = false;
+        }
+    }
+
+
+</script>
+
+</body>
+</html>
