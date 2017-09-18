@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body,ul,li,h3,h4{
+            margin: 0;
+            padding: 0;
+            color: #f5f5f5;
+        }
+        .clearfix:after{
+            content:'';
+            display: block;
+            clear: both;
+        }
+        ul,li{
+            list-style: none;
+        }
+        a{
+            text-decoration: none;
+            display: block;
+        }
+        #contain{
+            width: 750px;
+            height: 450px;
+            box-shadow: 0 0 10px #000;
+            margin: 20px auto;
+            border-radius: 10px;
+            background-color: #555;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .header h3{
+            height: 40px;
+            line-height: 40px;
+        }
+        .header{
+            margin-bottom: 20px;
+        }
+        .main{
+            height: 300px;
+        }
+        .main .list>li{
+            margin-bottom: 30px;
+        }
+
+        .title,.list{
+            float: left;
+        }
+        .title{
+            border-right: 1px solid #444;
+            padding: 10px;
+            height: 300px;
+        }
+        .title li{
+            margin-bottom: 50px;
+            cursor: pointer;
+        }
+        .active{
+            color: red;
+        }
+        .list>li{
+            height: 40px;
+            padding: 10px 0;
+            cursor: pointer;
+        }
+        .list>li a{
+            height: 100%;
+            color: #f9f9f9;
+        }
+        .list>li:hover{
+            background-color: #333;
+        }
+        .list .list-text{
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+            overflow: hidden;
+        }
+        .list .list-text li{
+            width: 440px;
+        }
+        .list li b,.list li .list-text,.list li .more{
+            float: left;
+            height: 40px;
+            margin-right: 20px;
+        }
+        .list li b{
+            line-height: 40px;
+            text-align: center;
+            width: 60px;
+            border-right: 1px solid #444;
+            font-size: 28px;
+            color: #f9f9f9;
+        }
+        .list li .more li{
+            font-size: 12px;
+            line-height: 20px;
+        }
+        .list li .more li:nth-child(2){
+            cursor: pointer;
+        }
+        .footer{
+            height: 50px;
+            line-height: 50px;
+            position: absolute;
+            left: 300px;
+            bottom: 10px;
+        }
+        .footer a{
+            text-decoration: none;
+            float: left;
+            margin-right: 30px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="contain">
+    <div class="header">
+        <h3>妙味招聘信息</h3>
+    </div>
+    <div class="main clearfix">
+        <ul class="title">
+            <!--<li>-->
+                <!--<a href="?type=sociology"><h4 class="active">社会招聘</h4></a>-->
+                <!--<span>society</span>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<a href="?type=school"><h4>校园招聘</h4></a>-->
+                <!--<span>campus</span>-->
+            <!--</li>-->
+        </ul>
+
+        <ul class="list">
+            <!--<li class="clearfix">-->
+                <!--<a href="">-->
+                    <!--<b>01</b>-->
+                    <!--<ul class="list-text">-->
+                        <!--<li>职位要求：前端工程师1111【社会招聘】需求人数：3名</li>-->
+                        <!--<li>计算机及相关专业及以上，从事软件测试...</li>-->
+                    <!--</ul>-->
+                    <!--<ul class="more">-->
+                        <!--<li>2017-09-08</li>-->
+                        <!--<li>查看详情>></li>-->
+                    <!--</ul>-->
+                <!--</a>-->
+            <!--</li>-->
+            <!--<li class="clearfix">-->
+                <!--<a href="">-->
+                    <!--<b>01</b>-->
+                    <!--<ul class="list-text">-->
+                        <!--<li>职位要求：前端工程师1111【社会招聘】需求人数：3名</li>-->
+                        <!--<li>计算机及相关专业及以上，从事软件测试...</li>-->
+                    <!--</ul>-->
+                    <!--<ul class="more">-->
+                        <!--<li>2017-09-08</li>-->
+                        <!--<li>查看详情>></li>-->
+                    <!--</ul>-->
+                <!--</a>-->
+            <!--</li>-->
+        </ul>
+    </div>
+
+    <div class="footer clearfix">
+        <!--<a href="">&lt;</a>-->
+        <!--<a href="">1</a>-->
+        <!--<a href="">2</a>-->
+        <!--<a href="">&gt;</a>-->
+    </div>
+</div>
+</body>
+
+<script src="data.js"></script>
+<script src="MTween.js"></script>
+<script>
+   /*
+   *1. 显示侧边栏
+   *
+   *2. 显示对应列表内容
+   *
+   * 解题思想：先做基本的数据渲染页面，再做其他功能
+   *        1. 主页的侧边栏 sociology 和 school，并且在a标签内加入type值实现切换功能
+   *        2. 根据侧边栏的 type 值 来获取 数据 ，将数据渲染到页面上，并且把对应的type值添加到a标签的href中，保存其type值，方便 子页面的返回主页面的操作，将子页面的文件名写在href里，实现页面跳转
+   *        3.子页面中的url中此时有 type值 ，根据type值 获取数据，然后渲染到页面上，在 子页面的 返回按钮中 添加 主页面的文件名并且加上type值，实现页面的跳转
+   *        4.此时 设置 页码，根据规定一页放n条数据，根据数据的条数计算出 总页数，然后循环遍历出 页数，页数的a标签 href中添加对应数据的hash（hash值加加和减减）值，实现页数跳转，search末尾添加 &a=Math.round(Math.random()*10),随机值，让a标签实现点击刷新
+   *        5，页码的上一页和下一页操作
+   *
+   * */
+
+
+   /***************************       1. 显示侧边栏         ***********************************/
+
+   // 设置默认页面
+    var sear = searchToJson(window.location.search); // 获取当前页的search的type值
+    var hash = window.location.hash.slice(1); // 获取hash值
+
+   if(!hash){
+       hash = 1;
+   }
+
+   // 如果获取的search中没有type，就默认设置sociology显示页面
+   if(!sear.type){
+       sear.type = 'sociology';
+   }
+//   console.log(sear.type);
+
+
+   // 先获取 左边栏要显示的内容
+
+    var sideList = data.list;
+
+   // 将内容渲染到页面上，并且加上 type 值 ，实现跳转
+
+   var html = '';
+   for (var i = 0; i < sideList.length; i++) {
+       if(sideList[i].type == sear.type){
+           html += '<li><a href="?type='+sideList[i].type+'"><h4 class="active">'+sideList[i].name+'</h4></a><span>'+sideList[i].type+'</span></li>'
+       }else{
+           html += '<li><a href="?type='+sideList[i].type+'"><h4>'+sideList[i].name+'</h4></a><span>'+sideList[i].type+'</span></li>'
+       }
+
+   }
+
+   var title = document.querySelector('.title'); // 侧边栏盒子
+
+   title.innerHTML = html; // 内容渲染到页面
+
+
+
+   /***************************       2. 内容列表的显示         ***********************************/
+
+    // 先获取 内容框要显示的数据
+
+    var contentList = data[sear.type]; // 根据 社会招聘还是校园招聘来获取
+
+
+    // 分页操作 每页放 3 条内容
+   var pageNum = 3;
+   var total = contentList.length;
+   var pages = Math.ceil(total/pageNum); // 分的页数
+
+   var pageBox = document.querySelector('.footer');
+
+   html = '';
+   for (var i = 0; i < pages; i++) {
+        html += '<a href="?type='+sear.type+'&a='+i+'#'+(i+1)+'">'+(i+1)+'</a>';
+   }
+
+   pageBox.innerHTML = html;
+
+
+   // 每页存放的数据
+      var contList = contentList.slice((hash-1)*pageNum,hash*pageNum);
+//   console.log((hash - 1) * pageNum);
+//   console.log(hash * pageNum);
+
+   // 上一页
+
+   var prev = document.createElement('a');
+   prev.innerHTML = '&lt;';
+   // 上一页按钮添加点击事件，改变页码
+   prev.onclick = function (){
+        var arr = window.location.href.split('#');
+        hash--;
+        if(hash<1){
+            hash = 1;
+            alert('到头啦');
+        }
+       window.location.href = arr[0]+'&a='+Math.round(Math.random()*10)+'#'+hash; // 通过hash改变href，来跳转页面
+       return false;
+   };
+
+   pageBox.insertBefore(prev,pageBox.children[0]);
+
+   // 下一页
+
+   var next = document.createElement('a');
+   next.innerHTML = '&gt;';
+   // 上一页按钮添加点击事件，改变页码
+   next.onclick = function (){
+       var arr = window.location.href.split('#');
+       hash++;
+       if(hash>pages){
+           hash = pages;
+           alert('到底啦');
+       }
+       window.location.href = arr[0]+'&a='+Math.round(Math.random()*10)+'#'+hash; // 通过hash改变href，来跳转页面
+       return false;
+   };
+
+   pageBox.appendChild(next);
+
+
+   //   console.log(contentList);
+
+   // 将对应的type 数据渲染到页面上 ，并且把对应的type值添加到a标签的href中，保存其type值，方便 子页面的返回主页面的操作
+   html = '';
+   for (var i = 0; i < contList.length; i++) {
+
+       // href="index2.html?type='+sear.type+'#'+i+' 跳转页面，并且记录type值，#值是为了a标签的跳转用
+
+       html += '<li class="clearfix"><a href="index2.html?type='+sear.type+'#'+i+'"><b>'+contList[i].id+'</b><ul class="list-text"><li>'+contList[i].title+'</li><li>'+contList[i].require+'</li></ul><ul class="more"><li>'+contList[i].time+'</li><li>查看详情>></li></ul></a></li>';
+
+   }
+
+   var list = document.querySelector('.list');
+   list.innerHTML = html;
+
+
+</script>
+</html>

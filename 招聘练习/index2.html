@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body,ul,li,h3,h4,h5,p{
+            margin: 0;
+            padding: 0;
+        }
+        ul,li{
+            list-style: none;
+        }
+        a{
+            text-decoration: none;
+        }
+        .clearfix:after{
+            content:'';
+            display: block;
+            clear: both;
+        }
+        .fl{
+            float: left;
+        }
+        .fr{
+            float: right;
+        }
+        #contain{
+            width: 750px;
+            height: 450px;
+            box-shadow: 0 0 10px #000;
+            margin: 20px auto;
+            border-radius: 10px;
+            background-color: #555;
+            padding: 20px;
+            position: relative;
+        }
+        .header h3{
+            color: #f5f5f5;
+            float: left;
+        }
+        .header a{
+            float: right;
+            color: #e27089;
+            margin-right: 50px;
+        }
+        .header .borderStyle{
+            border: 1px solid #e27089;
+            padding: 0 10px;
+            border-radius: 25px;
+        }
+        .header{
+            margin-bottom: 10px;
+            height: 40px;
+            line-height: 40px;
+        }
+        .main .title{
+            border-bottom: 1px solid #dcdcdc;
+            padding-bottom: 20px;
+        }
+        .main .title h4{
+            height: 50px;
+            line-height: 50px;
+            color: #f9f9f9;
+            font-size: 24px;
+        }
+        .main .title ul li{
+            color: #cccccc;
+        }
+        .require h5,.duty h5{
+            height: 50px;
+            line-height: 50px;
+            color: #f9f9f9;
+            font-size: 18px;
+        }
+        .require li,.duty p{
+            height: 30px;
+            line-height: 30px;
+            color: #cccccc;
+        }
+
+
+
+
+
+    </style>
+</head>
+<body>
+<div id="contain">
+    <div class="header">
+        <h3>妙味招聘信息</h3>
+        <a href="#" class="borderStyle"><span>投个简历</span></a>
+        <a href="#" class="goBack">< 返回招聘列表</a>
+    </div>
+    <div class="main">
+        <div class="title">
+            <h4>职位要求：前端工程师111 【社会招聘】 需求人数：2名</h4>
+            <ul class="clearfix">
+                <li class="fl">面议 / 上海 / 0年以上 / 本科及以上 / 0名</li>
+                <li class="fr">2013-7-14</li>
+            </ul>
+        </div>
+
+        <div class="require">
+            <h5>岗位要求：</h5>
+            <ul>
+                <li>1.计算机或相关专业本科以上学历;</li>
+                <li>1.计算机或相关专业本科以上学历;</li>
+                <li>1.计算机或相关专业本科以上学历;</li>
+                <li>1.计算机或相关专业本科以上学历;</li>
+                <li>1.计算机或相关专业本科以上学历;</li>
+                <li>1.计算机或相关专业本科以上学历;</li>
+            </ul>
+        </div>
+        <div class="duty">
+            <h5>工作职责：</h5>
+            <p>从事计算机软件的测试工作111111。</p>
+        </div>
+    </div>
+</div>
+
+
+<script src="data.js"></script>
+<script src="MTween.js"></script>
+<script>
+
+    // 根据search值 获取第二页的数据
+    var sear = searchToJson(window.location.search); // 获取当前url中的type值
+    var hash = window.location.hash.slice(1); // 根据hash值获取要显示第几个内容
+
+        var list = data[sear.type][hash]; // 获取显示的内容
+
+    // 获取元素
+
+    var h4 = document.querySelector('h4');
+    var uls = document.querySelectorAll('.main ul');
+    var p = document.querySelector('.duty p');
+
+    // 添加数据
+
+    h4.innerHTML = list.title;
+    uls[0].innerHTML = '<li class="fl">'+list.content.pay+' / '+list.content.address+' / '+list.content.exper+' / '+list.content.education+' / '+list.content.num+'</li><li class="fr">'+list.time+'</li>';
+
+    // ul[1]中要放入的数据
+
+    var ulData = list.content.requirement;
+
+    var html = '';
+    for (var i = 0; i < ulData.length; i++) {
+        html += '<li>'+ulData[i]+'</li>';
+    }
+    uls[1].innerHTML = html;
+
+    // p存放的数据
+
+    var pData = list.content.duty;
+
+    p.innerHTML = pData;
+
+
+    // 返回设置
+    var goBack = document.querySelector('.goBack');
+
+    goBack.href = 'index.html?type='+sear.type;
+
+</script>
+</body>
+</html>

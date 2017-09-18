@@ -1,0 +1,27 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+#aircraft {
+	width: 135px;
+	height: 90px;
+	position: absolute;
+	background: url(img/img_plane_main.png);
+	bottom: 0;
+	left: 50%;
+}
+
+.bullet {
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	background: red;
+}
+.enemy{
+	background: url(img/img_plane_main.png) -125px -106px;
+	transform: rotateZ(180deg);
+	position: absolute;
+	width: 120px;
+	height: 95px;
+}

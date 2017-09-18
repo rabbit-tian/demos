@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body,ul,li,h3,h4,p,b{
+            margin: 0;
+            padding: 0;
+        }
+        ul,li{
+            list-style: none;
+        }
+        a{
+            text-decoration: none;
+            display: block;
+        }
+        img{
+            border: 0;
+            display: block;
+        }
+        .clearfix:after{
+            content:'';
+            display: block;
+            clear: both;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+        #contain{
+            background: url(img/4.jpg);
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .header{
+            margin: 20px 20px 0 0;
+        }
+        .header a{
+            float: right;
+            margin-right: 20px;
+            color: #fff;
+            border: 1px solid #ccc;
+            padding: 5px 15px;
+            border-radius: 10px;
+        }
+        .login-box{
+            position: absolute;
+            background-color: #fff;
+            padding: 30px;
+        }
+        .login-left{
+            float: left;
+            width: 300px;
+            height:300px;
+            border-right: 1px solid #000;
+        }
+        .login-left h3 b{
+            font-weight: normal;
+            font-size: 14px;
+            color: #ff8a57;
+            padding-left: 10px;
+        }
+        .login-left .loginUl{
+            margin: 20px 0;
+        }
+        .login-left .loginUl li{
+            float: left;
+            width: 120px;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 5px;
+            margin-right: 10px;
+            cursor: pointer;
+            color: #fff;
+        }
+        .login-left .loginUl li:nth-child(1){
+            background-color: #f66060;
+        }
+        .login-left .loginUl li:nth-child(2){
+            background-color: #4a9cf8;
+        }
+        .login-left .loginUl li:nth-child(3){
+            width: 10px;
+            color: #ccc;
+            font-size: 40px;
+        }
+        .login-left img{
+            display: inline-block;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+
+        form input{
+            width: 240px;
+            height: 40px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            outline: none;
+            padding: 0 5px;
+        }
+        form input[type=button]{
+            background-color: #ff6600;
+            color: #fff;
+            font-size: 22px;
+            width: 252px;
+        }
+        .footer{
+            margin-top: 20px;
+        }
+        .footer li{
+            float: left;
+            border-right: 1px solid #ccc;
+            padding: 0 10px;
+            cursor: pointer;
+        }
+        .footer li:nth-child(1){
+            padding-left: 0;
+        }
+        .footer li:nth-child(3){
+            border: 0;
+        }
+
+        .login-right{
+            float: right;
+            width: 300px;
+            height:300px;
+            margin-left: 20px;
+            text-align: center;
+        }
+        .login-right p{
+            margin-top: 30px;
+        }
+        .login-right img{
+            margin: 20px 0 20px 80px;
+        }
+        .login-right span{
+            background-color: #ccc;
+            border-radius: 5px;
+            padding: 0 20px;
+        }
+
+        .cancel{
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background-color: #ff650a;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 15px;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+
+
+
+
+    </style>
+</head>
+<body>
+<div id="contain">
+    <div class="header clearfix">
+        <a href="javascript:;">注册</a>
+        <a href="javascript:;" class="login">登录</a>
+    </div>
+
+    <!--<div class="login-box">-->
+        <!--<div class="login-left">-->
+            <!--<h3>登录<b>支持优酷和土豆账号</b></h3>-->
+            <!--<ul class="loginUl clearfix">-->
+                <!--<li><img src="img/weibo.png">微博登录</li>-->
+                <!--<li><img src="img/qq.png">QQ登录</li>-->
+                <!--<li>&gt;</li>-->
+            <!--</ul>-->
+            <!--<form action="">-->
+                <!--<input type="text" placeholder="手机号码或者邮箱地址"></br>-->
+                <!--<input type="text" placeholder="固定密码"></br>-->
+                <!--<input type="button" value="登录">-->
+            <!--</form>-->
+            <!--<ul class="footer clearfix">-->
+                <!--<li><input type="checkbox">自动登录</li>-->
+                <!--<li>忘记密码</li>-->
+                <!--<li>免费注册</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+        <!--<div class="login-right">-->
+            <!--<p>用土豆APP扫描，安全登录</p>-->
+            <!--<img src="img/sao.png">-->
+            <!--<span>也支持其他扫描工具</span>-->
+        <!--</div>-->
+
+        <!--<div class="cancel">X</div>-->
+    <!--</div>-->
+</div>
+
+<script>
+    // 获取元素
+
+    var contain = document.querySelector('#contain');
+    var loginBtn = document.querySelector('.login');
+
+    // 点击登录按钮，添加点击事件，创建元素
+
+    loginBtn.onclick = function (){
+        if(this.isclick) return;
+        this.isclick = true;
+
+        // 创建元素
+        var loginBox = document.createElement('div');
+        loginBox.className = 'login-box';
+        var cancel = document.createElement('div');
+        cancel.className = 'cancel';
+        cancel.innerHTML = 'X';
+
+        var html = '<div class="login-left"><h3>登录<b>支持优酷和土豆账号</b></h3><ul class="loginUl clearfix"><li><img src="img/weibo.png">微博登录</li><li><img src="img/qq.png">QQ登录</li><li>&gt;</li></ul><form action=""><input type="text" placeholder="手机号码或者邮箱地址"></br><input type="text" placeholder="固定密码"></br><input type="button" value="登录"></form><ul class="footer clearfix"><li><input type="checkbox">自动登录</li><li>忘记密码</li><li>免费注册</li></ul></div><div class="login-right"><p>用土豆APP扫描，安全登录</p><img src="img/sao.png"><span>也支持其他扫描工具</span></div>';
+
+        loginBox.innerHTML = html;
+        loginBox.appendChild(cancel);
+        contain.appendChild(loginBox);
+
+        // 取消按钮
+
+        cancel.onclick = function (){
+            contain.removeChild(loginBox);
+            loginBtn.isclick = false;
+        };
+
+
+        // 登录框水平垂直居中
+
+        betweenFn();
+
+        window.onresize = function (){
+
+            betweenFn();
+
+        }
+
+    };
+
+
+    //水平居中的函数封装
+    function betweenFn(){
+        var loginBox = document.querySelector('.login-box');
+
+        var loginLeft =(window.innerWidth - loginBox.offsetWidth)/2;
+        var loginTop = (window.innerHeight - loginBox.offsetHeight)/2;
+
+        loginBox.style.left = loginLeft + 'px';
+        loginBox.style.top = loginTop + 'px';
+    }
+
+</script>
+</body>
+</html>

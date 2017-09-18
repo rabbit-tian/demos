@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body, ul, li, h3, p {
+            margin: 0;
+            padding: 0;
+        }
+        ul,li{
+            list-style: none;
+        }
+        #contain{
+            width: 500px;
+            height: 500px;
+            box-shadow: 0 0 10px yellowgreen;
+            margin: 20px auto;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+        .search{
+            width: 440px;
+            min-height: 50px;
+            background-color: #e0e1fe;
+            border-radius: 20px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .search input{
+            width: 340px;
+            height: 30px;
+            border:0;
+            border-radius: 10px;
+            outline: none;
+            padding: 0 10px;
+            box-sizing: border-box;
+            margin-right: 10px;
+        }
+        .search span{
+            width: 50px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            background-color: #ff574f;
+            display: inline-block;
+            border-radius: 10px;
+            vertical-align: top;
+        }
+        .list li{
+            height: 40px;
+            line-height: 40px;
+            cursor: pointer;
+            margin: 5px 0;
+            padding: 0 10px;
+            border-radius: 10px;
+        }
+        .list li:hover{
+            background-color: pink;
+            color: #fff;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="contain">
+    <div class="search">
+        <input type="text">
+        <span>GO</span>
+        <ul class="list" style="display: none">
+            <li>html+css</li>
+            <li>html5+css3</li>
+            <li>javascript</li>
+            <li>angular</li>
+            <li>react</li>
+            <li>vue</li>
+            <li>jqurey</li>
+            <li>nodejs</li>
+        </ul>
+    </div>
+
+
+    <script>
+        // 获取元素
+        var btn = document.querySelector('input');
+        var list = document.querySelector('ul');
+        var lis = list.querySelectorAll('li');
+
+        // 点击input，选择
+
+        btn.addEventListener('click',function (){
+
+            if(list.style.display == 'none'){
+                list.style.display = 'block';
+            }else{
+                list.style.display = 'none';
+            }
+
+        });
+
+        // 点击li ，添加点击事件
+
+        for (var i = 0; i < lis.length; i++) {
+
+            lis[i].onclick = function (){
+                btn.value = this.innerHTML;
+                list.style.display = 'none';
+            }
+            
+        }
+
+
+    </script>
+</div>
+</body>
+</html>

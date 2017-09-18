@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body, ul, li, h3, p {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .clearfix:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        #contain {
+            width: 900px;
+            box-shadow: 0 0 10px #000;
+            padding: 30px;
+            margin: 0 auto;
+            background-color: #ccc;
+        }
+
+        .left-list, .right-list {
+            width: 400px;
+            height: 500px;
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            width: 100%;
+            height: 180px;
+            border-radius: 10px;
+            background-color: #e4f6fd;
+            border-color: #e2f4fe;
+            padding: 20px;
+            box-sizing: border-box;
+            font-size: 24px;
+            resize: none;
+            outline: none;
+        }
+
+        input {
+            background-color: #2baef3;
+            border-radius: 5px;
+            width: 100%;
+            height: 40px;
+            color: #fff;
+            font-size: 20px;
+            border: 0;
+            outline: none;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+
+        .note {
+            overflow: auto;
+            height: 200px;
+        }
+
+        .note li {
+            height: 40px;
+            line-height: 40px;
+            background-color: #e4f6fd;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            padding: 0 10px;
+            color: #2baef4;
+        }
+
+        .note li a {
+            float: right;
+            border: 1px solid #2baef3;
+            padding: 0 12px;
+            border-radius: 10px;
+            height: 30px;
+            line-height: 30px;
+            margin-top: 4px;
+            color: #2baef3;
+        }
+
+        .note li a:hover {
+            color: #fff;
+            background-color: #2baef3;
+        }
+
+        .left-list {
+            float: left;
+        }
+
+        .right-list {
+            float: right;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="contain" class="clearfix">
+    <div class="left-list msg">
+        <textarea></textarea> </br>
+        <input type="button" value="提交">
+        <ul class="note">
+            <!--<li>这是一段文字1 <a href="javascript:;">删除</a></li>-->
+            <!--<li>这是一段文字1 <a href="javascript:;">删除</a></li>-->
+            <!--<li>这是一段文字1 <a href="javascript:;">删除</a></li>-->
+        </ul>
+    </div>
+    <div class="right-list msg">
+        <textarea></textarea> </br>
+        <input type="button" value="提交">
+        <ul class="note">
+            <!--<li>这是一段文字1 <a href="javascript:;">删除</a></li>-->
+            <!--<li>这是一段文字1 <a href="javascript:;">删除</a></li>-->
+            <!--<li>这是一段文字1 <a href="javascript:;">删除</a></li>-->
+        </ul>
+    </div>
+</div>
+
+<script>
+    // 获取元素
+    //    var textL = document.querySelector('#left-list textarea');
+    //    var btnL = document.querySelector('#left-list input');
+    //    var noteUlL = document.querySelector('#left-list ul');
+    //
+    //    var textR = document.querySelector('#right-list textarea');
+    //    var btnR = document.querySelector('#right-list input');
+    //    var noteUlR = document.querySelector('#right-list ul');
+
+    var msg = document.querySelectorAll('.msg');
+
+    for (var i = 0; i < msg.length; i++) {
+
+        search(msg[i]);
+        
+    }
+
+
+    function search(obj) {
+        var text = obj.querySelector('textarea');
+        var btn = obj.querySelector('input');
+        var noteUl = obj.querySelector('ul');
+
+        btn.onclick = function () {
+            addEle(noteUl, text)
+        };
+
+        noteUl.addEventListener('click', function (ev) {
+            trustFn(ev);
+        });
+
+    }
+
+
+
+    /*******      函数封装     ************/
+
+    // 添加li函数封装
+    function addEle(parentObj, textVal) {
+        var val = textVal.value;
+
+        if (!val) {
+            alert('请输入内容');
+            return false;
+        }
+        parentObj.innerHTML = '<li>' + val + '<a special="del" href="javascript:;">删除</a></li>' + parentObj.innerHTML;
+        textVal.value = '';
+    }
+
+
+    // 事件委托的封装
+    function trustFn(ev) {
+        var e = ev || event;
+
+        if (e.target.getAttribute('special') == 'del') {
+            e.target.parentNode.parentNode.removeChild(e.target.parentNode);
+        }
+    }
+
+
+</script>
+</body>
+</html>

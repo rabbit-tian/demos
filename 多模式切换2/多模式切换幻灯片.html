@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body, ul, li, h3, p {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        img {
+            border: 0;
+            display: block;
+        }
+
+        #contain {
+            width: 600px;
+            height: 400px;
+            border: 10px solid #ccc;
+            border-radius: 20px;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .img-box {
+            width: 600px;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .img-box li {
+            width: 600px;
+            height: 400px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .img-box img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .prev {
+            position: absolute;
+            left: 20px;
+            top: 40%;
+            color: #666;
+            font-size: 50px;
+            z-index: 1000;
+        }
+
+        .next {
+            position: absolute;
+            right: 20px;
+            top: 40%;
+            color: #666;
+            font-size: 50px;
+            z-index: 1000;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="contain">
+    <ul class="img-box">
+        <li><img src="img/img1.jpg"></li>
+        <li><img src="img/img2.jpg"></li>
+        <li><img src="img/img3.jpg"></li>
+        <li><img src="img/img4.jpg"></li>
+        <li><img src="img/img5.jpg"></li>
+    </ul>
+
+    <a class="prev" href="javascript:;">&lt;</a>
+    <a class="next" href="javascript:;">&gt;</a>
+</div>
+
+<script src="MTween.js"></script>
+<script>
+
+    /*
+        功能模块化封装
+
+    * 1. 先封装四个方向的函数
+    *
+    * 2. 再根据功能块调用 函数
+    *
+    * */
+
+
+
+    // 获取元素
+    var imgBox = document.querySelector('.img-box');
+    var imgs = document.querySelectorAll('li');
+    var prev = document.querySelector('.prev');
+    var next = document.querySelector('.next');
+
+
+    var index = imgs.length - 1; // 记录层级
+    var onOff = false;
+
+    // 点击向右切换
+    next.onclick = function () {
+        animaFn(600,'left');
+    };
+
+    // 点击向右切换
+    prev.onclick = function () {
+        animaFn(-600,'left');
+    };
+
+
+    // 键盘控制
+
+    document.onkeydown = function (ev) {
+        var ev = ev || event;
+
+        if (ev.keyCode == 37) {
+            animaFn(-600,'left');
+        }
+
+        if (ev.keyCode == 38) {
+            animaFn(-600,'top');
+        }
+
+        if (ev.keyCode == 39) {
+            animaFn(600,'left');
+        }
+
+        if (ev.keyCode == 40) {
+            animaFn(600,'top');
+        }
+    };
+
+    // 鼠标拖拽事件
+
+    imgBox.onmousedown = function (ev) {
+        var ev = ev || event;
+
+        // 记录鼠标点击时，鼠标的位置
+
+        var oldX = ev.clientX;
+        var oldY = ev.clientY;
+
+        ev.preventDefault(); // 阻止默认事件
+
+        imgBox.onmouseup = function (ev) {
+            var ev = ev || event;
+
+            var newX = ev.clientX;
+            var newY = ev.clientY;
+
+            var x = newX - oldX;
+            var y = newY - oldY;
+
+            // 根据x 和 y 值判断
+
+            // 向右滑动
+            if (x > 0 && Math.abs(x)>Math.abs(y)) {
+                animaFn(600,'left');
+            }
+
+            // 向左滑动
+            if (x < 0 && Math.abs(x)>Math.abs(y)) {
+                animaFn(-600,'left');
+            }
+
+            // 向下滑动
+            if (y > 0 && Math.abs(x)<Math.abs(y)) {
+                animaFn(600,'top');
+            }
+
+            // 向上滑动
+            if (y < 0 && Math.abs(x)<Math.abs(y)) {
+                animaFn(-600,'top');
+            }
+
+        }
+    };
+
+    function animaFn(count,direction){
+        if (onOff) return;
+        onOff = true;
+        MTween(imgs[index], count, 200, direction, 'linear', function () {
+            imgs[index].style[direction] = 0;
+            imgs[index].style.zIndex = -1;
+
+            index--;
+
+            if (index < 0) {
+                index = imgs.length - 1;
+                for (var i = 0; i < imgs.length; i++) {
+                    imgs[i].style.zIndex = 0;
+                }
+            }
+            onOff = false;
+        });
+    }
+
+
+    // 向右
+//
+//    function rightFn() {
+//        if (onOff) return;
+//        onOff = true;
+//        MTween(imgs[index], 600, 200, 'left', 'linear', function () {
+//            imgs[index].style.left = 0;
+//
+//            imgs[index].style.zIndex = -1;
+//
+//            index--;
+//
+//            if (index < 0) {
+//                index = imgs.length - 1;
+//                for (var i = 0; i < imgs.length; i++) {
+//                    imgs[i].style.zIndex = 0;
+//                }
+//            }
+//            onOff = false;
+//        });
+//    }
+
+    // 向左
+//
+//    function leftFn() {
+//        if (onOff) return;
+//        onOff = true;
+//        MTween(imgs[index], -600, 200, 'left', 'linear', function () {
+//            imgs[index].style.left = 0;
+//            imgs[index].style.zIndex = -1;
+//
+//            index--;
+//
+//            if (index < 0) {
+//                index = imgs.length - 1;
+//                for (var i = 0; i < imgs.length; i++) {
+//                    imgs[i].style.zIndex = 0;
+//                }
+//            }
+//            onOff = false;
+//        });
+//    }
+//
+//    // 向上
+//
+//    function topFn() {
+//        if (onOff) return;
+//        onOff = true;
+//        MTween(imgs[index], -400, 200, 'top', 'linear', function () {
+//            imgs[index].style.top = 0;
+//            imgs[index].style.zIndex = -1;
+//
+//            index--;
+//
+//            if (index < 0) {
+//                index = imgs.length - 1;
+//                for (var i = 0; i < imgs.length; i++) {
+//                    imgs[i].style.zIndex = 0;
+//                }
+//            }
+//            onOff = false;
+//        });
+//    }
+//
+//
+//    // 向下
+//
+//    function bottomFn() {
+//        if (onOff) return;
+//        onOff = true;
+//        MTween(imgs[index], 400, 200, 'top', 'linear', function () {
+//            imgs[index].style.top = 0;
+//            imgs[index].style.zIndex = -1;
+//
+//            index--;
+//
+//            if (index < 0) {
+//                index = imgs.length - 1;
+//                for (var i = 0; i < imgs.length; i++) {
+//                    imgs[i].style.zIndex = 0;
+//                }
+//            }
+//            onOff = false;
+//        });
+//    }
+
+
+</script>
+</body>
+</html>

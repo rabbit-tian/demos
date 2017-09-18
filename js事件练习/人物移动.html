@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        div {
+            width: 100px;
+            height: 100px;
+            line-height: 100px;
+            text-align: center;
+            font-size: 50px;
+            background-color: pink;
+            position: absolute;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div>☆</div>
+
+
+<script>
+    /*
+        *
+        * 上下左右移动人物
+        *
+        * 回车     13
+         左键     37
+         上键     38
+         右键     39
+         下键     40
+         空格     32
+        *
+        * */
+
+    var div = document.querySelector('div');
+
+    var rightonOff = false; // 右键
+    var leftonOff = false; // 左键
+    var bottononOff = false; // 下键
+    var toponOff = false; // 上键
+
+    // 键盘按下事件
+    document.onkeydown = function (ev) {
+
+        // 右键
+        if (ev.keyCode == 39) {
+            if (rightonOff) return; // 保证只开启一次定时器，禁止onkeydown的连续触发
+            rightonOff = true;
+
+            //var limit = document.documentElement.clientWidth - div.offsetWidth;
+            var limit = window.innerWidth - div.offsetWidth;
+
+            clearInterval(div.rightTimer);
+            div.rightTimer = setInterval(function () {
+                var range = div.offsetLeft + 10;
+                if (range >= limit) {
+                    range = limit;
+                    clearInterval(div.rightTimer);
+                }
+
+                div.style.left = range + 'px';
+
+            }, 10)
+        }
+
+
+        // 左键
+        if (ev.keyCode == 37) {
+            if (leftonOff) return;
+            leftonOff = true;
+            clearInterval(div.leftTimer);
+            div.leftTimer = setInterval(function () {
+                var range = div.offsetLeft - 10;
+                if (range <= 0) {
+                    range = 0;
+                    clearInterval(div.leftTimer);
+                }
+                div.style.left = range + 'px';
+            }, 10)
+        }
+
+        // 下键
+        if (ev.keyCode == 40) {
+            if (bottononOff) return;
+            bottononOff = true;
+
+            //var limit = document.documentElement.clientHeight - div.offsetHeight;
+            var limit = window.innerHeight - div.offsetHeight;
+
+            clearInterval(div.bottonTimer);
+            div.bottonTimer = setInterval(function () {
+                var range = div.offsetTop + 10;
+                if (range >= limit) {
+                    range = limit;
+                    clearInterval(div.bottonTimer);
+                }
+                div.style.top = range + 'px';
+            }, 10)
+        }
+
+
+        // 上键
+        if (ev.keyCode == 38) {
+            if (toponOff) return;
+            toponOff = true;
+            clearInterval(div.topTimer);
+            div.topTimer = setInterval(function () {
+                var range = div.offsetTop - 10;
+                if (range <= 0) {
+                    range = 0;
+                    clearInterval(div.topTimer);
+                }
+                div.style.top = range + 'px';
+            }, 10)
+        }
+
+    };
+
+
+    // 键盘抬起事件
+
+    document.onkeyup = function (ev) {
+        // 右键
+        if (ev.keyCode == 39) {
+            rightonOff = false;
+            clearInterval(div.rightTimer);
+        }
+
+        // 左键
+        if (ev.keyCode == 37) {
+            leftonOff = false;
+            clearInterval(div.leftTimer);
+        }
+
+        // 下键
+        if (ev.keyCode == 40) {
+            bottononOff = false;
+            clearInterval(div.bottonTimer);
+        }
+
+        // 上键
+        if (ev.keyCode == 38) {
+            toponOff = false;
+            clearInterval(div.topTimer);
+        }
+
+    };
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+.container {
+    width: 1020px;
+    margin: 100px auto;
+    font-size: 0;
+}
+
+#imgBox {
+    width: 640px;
+    float: left;
+    position: relative;
+}
+
+#imgBox img {
+    width: 640px;
+}
+
+#bigImg {
+    width: 356px;
+    height: 356px;
+    border: 2px solid #000;
+    float: left;
+    background: url(3.jpg);
+    margin-left: 20px;
+    background-size: 1280px;
+    /*display: none;*/
+}
+
+#scope {
+    width: 178px;
+    height: 178px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    /*display: none;*/
+    background: #000;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
